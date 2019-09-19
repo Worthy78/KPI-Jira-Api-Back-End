@@ -1,19 +1,30 @@
 package com.example.jira.api;
 
-import kong.unirest.HttpResponse;
-import kong.unirest.JsonNode;
-import kong.unirest.Unirest;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.web.reactive.function.client.WebClient;
 
 public class test {
+    public static void main(String[] args) {
+/*        HttpResponse<JsonNode> response = Unirest.get("https://sambasg7.atlassian.net/rest/agile/1.0/sprint/2")
+                        .basicAuth("sougousamba@gmail.com", "DARsOdtDKiu1iev0pReXC8D9")
+                        .header("Accept", "application/json")
+                        .asJson();
+                System.out.println(response.getBody());
+         }
+*/
+        WebClient client = WebClient
+                .builder()
+                .baseUrl("https://sambasg7.atlassian.net")
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .defaultHeaders(header -> header.setBasicAuth("sougousamba@gmail.com", "DARsOdtDKiu1iev0pReXC8D9"))
+                .build();
 
-    public static void main(String[] args){
-        // This code sample uses the 'Unirest' library:
-        // http://unirest.io/java.html
-        HttpResponse<JsonNode> response = Unirest.get("https://rachid.atlassian.net/rest/agile/1.0/sprint/1")
-                .basicAuth("sirabraham2016@gmail.com", "CQ9by9RLrYvfOd3GYgoX9B9A")
-                .header("Accept", "application/json")
-                .asJson();
+        Boards response = client.get()
+                .uri("/rest/agile/1.0/board?type=scrum")
+                .retrieve()
+                .bodyToMono(Boards.class).block();
 
-        System.out.println(response.getBody());
+        System.out.println(response.getValues());
     }
 }
