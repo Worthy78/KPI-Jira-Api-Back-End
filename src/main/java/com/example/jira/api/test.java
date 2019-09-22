@@ -18,9 +18,9 @@ public class test {
 */
         WebClient client = WebClient
                 .builder()
-                .baseUrl("https://professionnelpro.atlassian.net")
+                .baseUrl("https://rachid.atlassian.net")
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .defaultHeaders(header -> header.setBasicAuth("professionelpro77@gmail.com", "dS7lVghDm111wUtMJojD0FB6"))
+                .defaultHeaders(header -> header.setBasicAuth("sirabraham2016@gmail.com", "CQ9by9RLrYvfOd3GYgoX9B9A"))
                 .build();
      /*   ApiResponse<Board> response = new  ApiResponse<Board>();
         response = client.get()
