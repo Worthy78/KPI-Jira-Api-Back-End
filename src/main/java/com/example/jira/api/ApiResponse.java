@@ -9,8 +9,4 @@ public class ApiResponse <T>  extends ResponseHeader {
     public List<T> getValues() {
         return values;
     }
-
-    public void setValues(List<T> values) {
-        this.values = values;
-    }
 }

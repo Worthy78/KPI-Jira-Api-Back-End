@@ -16,12 +16,6 @@ public class test {
          }
          ("sirabraham2016@gmail.com", "CQ9by9RLrYvfOd3GYgoX9B9A")
 */
-        WebClient client = WebClient
-                .builder()
-                .baseUrl("https://rachid.atlassian.net")
-                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .defaultHeaders(header -> header.setBasicAuth("sirabraham2016@gmail.com", "CQ9by9RLrYvfOd3GYgoX9B9A"))
-                .build();
      /*   ApiResponse<Board> response = new  ApiResponse<Board>();
         response = client.get()
                 .uri("/rest/agile/1.0/board?type=scrum")
@@ -34,16 +28,14 @@ public class test {
         } /
         System.out.println(response.getValues().get(0).getName());     */
 
+        Board ScrumBoard = new Board();
 
-      Board  response = client.get()
-                .uri("/rest/agile/1.0/board?type=scrum")
-                .retrieve()
-                .bodyToMono(Board.class).block();
-
-        List<Board> boardList = response.getValues() ;
+        List<Board> boardList = ScrumBoard.getAllBoard();
    /*     for (Board temp : boardList) {
             System.out.println(temp);
         }*/
+
+        System.out.println(boardList.size());
         for (Board temp : boardList) {
             System.out.println(temp);
         }

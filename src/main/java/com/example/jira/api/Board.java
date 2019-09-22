@@ -9,7 +9,12 @@ package com.example.jira.api;
     }
 }*/
 
-public class Board extends ApiResponse<Board>  {
+import org.springframework.web.reactive.function.client.WebClient;
+
+import java.util.LinkedHashMap;
+import java.util.List;
+
+public class Board   {
     private int id ;
 
     private String name ;
@@ -34,6 +39,17 @@ public class Board extends ApiResponse<Board>  {
 
     public Location getLocation() {
         return location;
+    }
+
+    public  List<Board>  getAllBoard(){
+        WebClient client = (new Client() ).getClient() ;
+        ApiResponse<Board> response = new  ApiResponse<Board>();
+        response = client.get()
+                .uri("/rest/agile/1.0/board?type=scrum")
+                .retrieve()
+                .bodyToMono(response.getClass()).block();
+
+        return response.getValues() ;
     }
 
     @Override
