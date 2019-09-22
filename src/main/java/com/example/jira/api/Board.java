@@ -1,14 +1,45 @@
 package com.example.jira.api;
 
-import java.util.List;
 
-class Boards extends ResponseHeader  {
+/*class Boards extends ResponseHeader  {
     private List<Board> values ;
 
     public List<Board> getValues() {
         return values;
     }
+}*/
 
+public class Board extends ApiResponse<Board>  {
+    private int id ;
+
+    private String name ;
+    private String type ;
+    private Location  location ;
+
+    public int getId() {
+        return id;
+    }
+
+   /* public String getSelf() {
+        return self;
+    }*/
+
+    public String getName() {
+        return name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    @Override
+    public String toString() {
+        return "id: "+id+" name : "+name + " type : "+type;
+    }
 }
 
 class Location {
@@ -46,38 +77,5 @@ class Location {
 
     public String getName() {
         return name;
-    }
-}
-
-class Board {
-    private int id ;
-
-    private String name ;
-    private String type ;
-    private Location  location ;
-
-    public int getId() {
-        return id;
-    }
-
-   /* public String getSelf() {
-        return self;
-    }*/
-
-    public String getName() {
-        return name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
-
-    @Override
-    public String toString() {
-        return "id: "+id+" name : "+name + " type : "+type;
     }
 }
