@@ -1,32 +1,83 @@
 package com.example.jira.api;
 
+import org.springframework.web.reactive.function.client.WebClient;
+
+import java.util.ArrayList;
 import java.util.List;
 
-public class Issue {
-    private String expand ;
+public class Issue extends ApiResponse<Issue> {
+   /* private String expand ;*/
     private  int id ;
     private  String self ;
     private String key ;
     private Fields fields ;
+
+    public int getId() {
+        return id;
+    }
+
+    public String getSelf() {
+        return self;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public Fields getFields() {
+        return fields;
+    }
+
+    @Override
+    public String toString() {
+        return "{id: "+id+" self : "+self + " key : "+key+"\n Fields : "+fields+"}";
+    }
+
 }
 
 
 class Fields {
     public String summary ;
     public  int customfield_10104 ;
-    public String versions ;
+    public ArrayList versions ;
     public Sprint Sprint ;
     public String epic ;
     public Status status ;
     public  IssueType issuetype;
     public Priority priority ;
+
+    @Override
+    public String toString() {
+        return "{summary: "+summary+" customfield_10104 : "+customfield_10104 + " status : "+status+"}";
+    }
 }
 
 class  commonFields {
-    String self ;
-    int id ;
-    String name ;
-    String iconUrl;
+    private String self ;
+    private int id ;
+    private String name ;
+    private String iconUrl;
+
+    public String getSelf() {
+        return self;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getIconUrl() {
+        return iconUrl;
+    }
+
+    @Override
+    public String toString() {
+        return "{id: "+id+" self : "+self + " name : "+name+"}";
+    }
 }
 class Status extends  commonFields {
     String description ;

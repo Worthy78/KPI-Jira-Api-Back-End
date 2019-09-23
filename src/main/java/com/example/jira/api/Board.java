@@ -14,9 +14,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class Board   {
+public class Board  extends ApiResponse<Board> {
     private int id ;
-
     private String name ;
     private String type ;
     private Location  location ;
@@ -42,12 +41,22 @@ public class Board   {
     }
 
     public  List<Board>  getAllBoard(){
-        WebClient client = (new Client() ).getClient() ;
-        ApiResponse<Board> response = new  ApiResponse<Board>();
-        response = client.get()
+        WebClient client = (new Client()).getClient() ;
+
+        Board response = client.get()
                 .uri("/rest/agile/1.0/board?type=scrum")
                 .retrieve()
-                .bodyToMono(response.getClass()).block();
+                .bodyToMono(Board.class).block();
+
+        return response.getValues() ;
+    }
+
+    public  List<Sprint>  getAllSprint(){
+        WebClient client = (new Client() ).getClient() ;
+        Sprint  response = client.get()
+                .uri("rest/agile/1.0/board/"+id+"/sprint?")
+                .retrieve()
+                .bodyToMono(Sprint.class).block();
 
         return response.getValues() ;
     }

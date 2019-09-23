@@ -1,9 +1,5 @@
 package com.example.jira.api;
 
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.web.reactive.function.client.WebClient;
-
 import java.util.List;
 
 public class test {
@@ -16,29 +12,34 @@ public class test {
          }
          ("sirabraham2016@gmail.com", "CQ9by9RLrYvfOd3GYgoX9B9A")
 */
-     /*   ApiResponse<Board> response = new  ApiResponse<Board>();
-        response = client.get()
-                .uri("/rest/agile/1.0/board?type=scrum")
-                .retrieve()
-                .bodyToMono(response.getClass()).block();
+        /*
+        Board scrumBoard = new Board();
+        List<Board> boardList = scrumBoard.getAllBoard();
 
-        List<Board> boardList = response.getValues() ;
-   /*     for (Board temp : boardList) {
-            System.out.println(temp);
-        } /
-        System.out.println(response.getValues().get(0).getName());     */
-
-        Board ScrumBoard = new Board();
-
-        List<Board> boardList = ScrumBoard.getAllBoard();
-   /*     for (Board temp : boardList) {
-            System.out.println(temp);
-        }*/
-
-        System.out.println(boardList.size());
+        System.out.println("BOARD LIST :");
         for (Board temp : boardList) {
             System.out.println(temp);
         }
-    
+
+        System.out.println("BOARD SPRINT  LIST:  ");
+        List<Sprint> boardSprintList = boardList.get(0).getAllSprint();
+        System.out.println(boardSprintList.size() +" boardSprintList :  ");
+        for (Sprint temp : boardSprintList) {
+            System.out.println(temp);
+        }
+
+        System.out.println("BOARD SPRINT ISSUE LIST:  ");
+       // ISSUE
+        List<Issue> boardSprintIssueList = boardSprintList.get(0).getAllIssue();
+        System.out.println(boardSprintIssueList.size() +" boardSprintIssueList :  ");
+        for (Issue temp : boardSprintIssueList) {
+            System.out.println(temp);
+        }
+        */
+        List<Project> projects = (new Client()).getAllProject();
+        System.out.println(" PROJECTS ! :  ");
+        for (Project temp : projects) {
+            System.out.println(temp);
+        }
     }
 }
