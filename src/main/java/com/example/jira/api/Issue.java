@@ -11,16 +11,15 @@ public class Issue extends ApiResponse<Issue> {
     private  String self ;
     private String key ;
     private Fields fields ;
-    private Project project;
     private double storyPoint = 0 ;
-    // sprint
-    private  Sprint sprint ;
 
     public double getStoryPoint() {
+        int boardId = 28;
+        System.out.println("ID"+fields.project);
         if(storyPoint == 0){
             WebClient client = (new Client()).getClient();
             StoryPoint response = client.get()
-                    .uri("/rest/agile/1.0/issue/" + key + "/estimation?boardId=3" + "")
+                    .uri("/rest/agile/1.0/issue/" + key + "/estimation?boardId=" + boardId)
                     .retrieve()
                     .bodyToMono(StoryPoint.class).block();
             storyPoint = response.getValue();
@@ -28,9 +27,6 @@ public class Issue extends ApiResponse<Issue> {
         return storyPoint;
     }
 
-    public Project getProject() {
-        return project;
-    }
 
     public int getId() {
         return id;
@@ -59,9 +55,7 @@ public class Issue extends ApiResponse<Issue> {
                 ", self='" + self + '\'' +
                 ", key='" + key + '\'' +
                 ", fields=" + fields +
-                ", project=" + project +
                 ", storyPoint=" + getStoryPoint() +
-                ", sprint=" + sprint +
                 '}';
     }
 }
@@ -70,7 +64,8 @@ public class Issue extends ApiResponse<Issue> {
 class Fields {
     public String summary ;
     public ArrayList versions ;
-    public Sprint Sprint ;
+    public Sprint sprint ;
+    public Project project ;
     public String epic ;
     public Status status ;
     public  IssueType issuetype;

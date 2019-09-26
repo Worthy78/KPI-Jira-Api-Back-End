@@ -30,7 +30,7 @@ public class test {
 
         System.out.println("PROJECTS :" + projects);
 
-        Project aProject = new Project("10002","EDPS","Exemple de projet Scrum");
+        Project aProject = new Project("28","ESHOPB2C","Eshop B2C Board");
         // Getting Boards of a project
         //List<Board> boardList = projects.get(0).getAllBoard();;
         List<Board> boardList = aProject.getAllBoard();;

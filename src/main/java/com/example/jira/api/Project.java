@@ -18,6 +18,8 @@ public class Project {
         this.name = name;
     }
 
+    public Project() {
+    }
     public String getId() {
         return id;
     }
