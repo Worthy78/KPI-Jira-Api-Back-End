@@ -3,6 +3,7 @@ package com.example.jira.api;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,15 +20,15 @@ public class Client {
                 .build();
     }
 
-    public List<Project> getAllProject(){
+   /* public List<Project> getAllProject(){
         WebClient client = (new Client()).getClient() ;
-        List <Project> response = new ArrayList<>();
-        response = client.get()
+
+        Flux< Project> response = client.get()
                 .uri("/rest/api/2/project")
                 .retrieve()
-                .bodyToMono(response.getClass()).block();
+                .bodyToFlux(Project.class);
         return response ;
-    }
+    } */
 
     public WebClient getClient() {
         return client;

@@ -11,6 +11,26 @@ public class Issue extends ApiResponse<Issue> {
     private  String self ;
     private String key ;
     private Fields fields ;
+    private Project project;
+    private double storyPoint = 0 ;
+    // sprint
+    private  Sprint sprint ;
+
+    public double getStoryPoint() {
+        if(storyPoint == 0){
+            WebClient client = (new Client()).getClient();
+            StoryPoint response = client.get()
+                    .uri("/rest/agile/1.0/issue/" + key + "/estimation?boardId=3" + "")
+                    .retrieve()
+                    .bodyToMono(StoryPoint.class).block();
+            storyPoint = response.getValue();
+        }
+        return storyPoint;
+    }
+
+    public Project getProject() {
+        return project;
+    }
 
     public int getId() {
         return id;
@@ -28,17 +48,27 @@ public class Issue extends ApiResponse<Issue> {
         return fields;
     }
 
-    @Override
-    public String toString() {
-        return "{id: "+id+" self : "+self + " key : "+key+"\n Fields : "+fields+"}";
+    public String type (){
+        return fields.issuetype.getName();
     }
 
+    @Override
+    public String toString() {
+        return "Issue{" +
+                "id=" + id +
+                ", self='" + self + '\'' +
+                ", key='" + key + '\'' +
+                ", fields=" + fields +
+                ", project=" + project +
+                ", storyPoint=" + getStoryPoint() +
+                ", sprint=" + sprint +
+                '}';
+    }
 }
 
 
 class Fields {
     public String summary ;
-    public  int customfield_10104 ;
     public ArrayList versions ;
     public Sprint Sprint ;
     public String epic ;
@@ -48,7 +78,7 @@ class Fields {
 
     @Override
     public String toString() {
-        return "{summary: "+summary+" customfield_10104 : "+customfield_10104 + " status : "+status+"}";
+        return "{summary: "+summary + " status : "+status+"}";
     }
 }
 

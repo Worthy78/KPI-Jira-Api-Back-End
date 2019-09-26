@@ -40,17 +40,6 @@ public class Board  extends ApiResponse<Board> {
         return location;
     }
 
-    public  List<Board>  getAllBoard(){
-        WebClient client = (new Client()).getClient() ;
-
-        Board response = client.get()
-                .uri("/rest/agile/1.0/board?type=scrum")
-                .retrieve()
-                .bodyToMono(Board.class).block();
-
-        return response.getValues() ;
-    }
-
     public  List<Sprint>  getAllSprint(){
         WebClient client = (new Client() ).getClient() ;
         Sprint  response = client.get()
@@ -63,7 +52,11 @@ public class Board  extends ApiResponse<Board> {
 
     @Override
     public String toString() {
-        return "id: "+id+" name : "+name + " type : "+type;
+        return "Board{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                '}';
     }
 }
 
