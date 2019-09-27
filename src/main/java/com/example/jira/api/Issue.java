@@ -3,7 +3,6 @@ package com.example.jira.api;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Issue extends ApiResponse<Issue> {
    /* private String expand ;*/
@@ -15,7 +14,7 @@ public class Issue extends ApiResponse<Issue> {
 
     public double getStoryPoint() {
         int boardId = 28;
-        System.out.println("ID"+fields.project);
+       // System.out.println("ID"+fields.project);
         if(storyPoint == 0){
             WebClient client = (new Client()).getClient();
             StoryPoint response = client.get()
@@ -56,7 +55,7 @@ public class Issue extends ApiResponse<Issue> {
                 ", key='" + key + '\'' +
                 ", fields=" + fields +
                 ", storyPoint=" + getStoryPoint() +
-                '}';
+                "}";
     }
 }
 
@@ -66,7 +65,7 @@ class Fields {
     public ArrayList versions ;
     public Sprint sprint ;
     public Project project ;
-    public String epic ;
+    //public String epic ;
     public Status status ;
     public  IssueType issuetype;
     public Priority priority ;

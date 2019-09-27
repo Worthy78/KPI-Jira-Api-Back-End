@@ -65,7 +65,7 @@ public class Sprint  extends ApiResponse<Sprint> {
 
     public List<Issue>  getAllIssue(){
             WebClient client = (new Client()).getClient();
-        System.out.println("HEREEEEE"+id);
+        //System.out.println("HEREEEEE"+id);
         Issue response = client.get()
                     .uri("/rest/agile/1.0/board/" + originBoardId + "/sprint/" + id + "/issue?fields=issuetype,sprint,status,epic,priority,versions,summary,project")
                     .retrieve()
@@ -95,6 +95,6 @@ public class Sprint  extends ApiResponse<Sprint> {
                 ", endDate=" + endDate +
                 ", originBoardId=" + originBoardId +
                 ", goal='" + goal + '\'' +
-                '}';
+                "}";
     }
 }
