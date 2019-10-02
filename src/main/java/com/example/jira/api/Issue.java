@@ -54,8 +54,9 @@ public class Issue extends ApiResponse<Issue> {
                 ", self='" + self + '\'' +
                 ", key='" + key + '\'' +
                 ", fields=" + fields +
-                ", storyPoint=" + getStoryPoint() +
+
                 "}";
+        //", storyPoint=" + getStoryPoint() +
     }
 }
 
@@ -100,7 +101,12 @@ class  commonFields {
 
     @Override
     public String toString() {
-        return "{id: "+id+" self : "+self + " name : "+name+"}";
+        return "commonFields{" +
+                "self='" + self + '\'' +
+                ", id=" + id +
+                ", name='" + name + '\'' +
+                ", iconUrl='" + iconUrl + '\'' +
+                '}';
     }
 }
 class Status extends  commonFields {
@@ -114,6 +120,7 @@ class IssueType extends  commonFields{
     String description ;
  int avatarId ;
  boolean subtask ;
+
 }
 
 class Priority extends commonFields {

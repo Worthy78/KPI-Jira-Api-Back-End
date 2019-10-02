@@ -15,7 +15,7 @@ public class test {
         List<Project> projects = new ArrayList<>();
         WebClient client = (new Client()).getClient() ;
         Flux< Project> response = client.get()
-                .uri("/rest/api/2/project")
+                .uri("/rest/api/2/project/")
                 .retrieve()
                 .bodyToFlux(Project.class);
         response.subscribe(project -> projects.add(project));
@@ -23,6 +23,7 @@ public class test {
         System.out.println("\n\nPROJECTS :" + projects);
 
         Project aProject = new Project("28","ESHOPB2C","Eshop B2C Board");
+        //Project aProject = new Project("10002","EDPS","Exemple de projet Scrum");
         // Getting Boards of a project
         //List<Board> boardList = projects.get(0).getAllBoard();;
         List<Board> boardList = aProject.getAllBoard();;
@@ -43,32 +44,16 @@ public class test {
 
         // issues of the first sprint
        // ISSUE
+       // List<Issue> boardSprintIssueList = boardSprintList.get(10).getAllIssue();
+/*
         List<Issue> boardSprintIssueList = boardSprintList.get(10).getAllIssue();
         System.out.println("BOARD SPRINT ISSUE LIST: "+boardSprintIssueList.size()+"\n");
         for (Issue temp : boardSprintIssueList) {
             System.out.println("\n"+temp);
+        }*/
+        for (Sprint temp : boardSprintList) {
+            System.out.println(temp.results());
         }
- /*
-        List<Project> projects = (new Client()).getAllProject();
-        System.out.println(" PROJECTS ! :  ");
-        for (Project temp : projects) {
-            System.out.println(temp);
-        }
-
-        WebClient client = (new Client()).getClient() ;
-
-        Flux<String> stringFlux = Flux.fromIterable(Arrays.asList("aaa","bbb"));
-
-        List<String> list = new ArrayList<>();
-
-        Flux< Project> response = client.get()
-                .uri("/rest/api/2/project")
-                .retrieve()
-                .bodyToFlux(Project.class);
-        stringFlux.subscribe(val -> list.add(val));
-
-        System.out.println(list);
-  */
-
+      //  System.out.println(boardSprintList.get(10).issueTypes());
     }
 }
