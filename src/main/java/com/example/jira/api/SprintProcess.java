@@ -2,12 +2,11 @@ package com.example.jira.api;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 
-import javax.persistence.*;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Entity
 public class SprintProcess  extends ApiResponse<SprintProcess> {
     private int id ;
     private String self;
