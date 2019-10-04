@@ -12,10 +12,9 @@ import java.util.List;
 
 public class Client {
     private  WebClient client ;
-
+    private  String baseUrl = "http://jira.tools.orange-sonatel.com/";
     public Client() {
 
-            String baseUrl = "http://jira.tools.orange-sonatel.com/";
             // Encode using basic encoder
            /* String token = Base64.getEncoder().encodeToString(
                     "username:pwd".getBytes("utf-8")); */
@@ -29,6 +28,15 @@ public class Client {
         /*} catch(UnsupportedEncodingException e) {
             System.out.println("Error :" + e.getMessage());
         }*/
+    }
+    public Client(  String token) {
+
+            this.client = WebClient
+                    .builder()
+                    .baseUrl(baseUrl)
+                    .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                    .defaultHeaders(header -> header.set(HttpHeaders.AUTHORIZATION, "Basic "+token))
+                    .build();
     }
 
    /* public List<Project> getAllProject(){

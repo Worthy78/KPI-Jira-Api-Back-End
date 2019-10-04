@@ -2,42 +2,41 @@ package com.example.jira.api;
 
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class test {
     public static void main(String[] args) {
 
         // Getting all projects
-        List<Project> projects = new ArrayList<>();
+        List<ProjectProcess> projects = new ArrayList<>();
         WebClient client = (new Client()).getClient() ;
-        Flux< Project> response = client.get()
-                .uri("/rest/api/2/project/")
+        Flux< ProjectProcess> response = client.get()
+                .uri("/rest/api/2/project?")
                 .retrieve()
-                .bodyToFlux(Project.class);
-        response.subscribe(project -> projects.add(project));
+                .bodyToFlux(ProjectProcess.class);
+        response.subscribe(project -> System.out.println("TEST"+project));
 
-        System.out.println("\n\nPROJECTS :" + projects);
+        System.out.println("\n\nPROJECTS :" + response);
 
-        Project aProject = new Project("28","ESHOPB2C","Eshop B2C Board");
+
+        ProjectProcess aProject = new ProjectProcess("28","ESHOPB2C","Eshop B2C Board");
         //Project aProject = new Project("10002","EDPS","Exemple de projet Scrum");
         // Getting Boards of a project
         //List<Board> boardList = projects.get(0).getAllBoard();;
-        List<Board> boardList = aProject.getAllBoard();;
+        List<BoardProcess> boardList = aProject.getAllBoard();;
         System.out.println("BOARD LIST :");
-        for (Board board : boardList) {
+        for (BoardProcess board : boardList) {
             System.out.println("\n"+board);
         }
 
         // Getting Sprint of the first board of the project
         System.out.println("BOARD SPRINT  LIST:  ");
-        List<Sprint> boardSprintList = boardList.get(0).getAllSprint();
+        List<SprintProcess> boardSprintList = boardList.get(0).getAllSprint();
         System.out.println(boardSprintList.size() +" boardSprintList :  ");
         int count=-1;
-        for (Sprint temp : boardSprintList) {
+        for (SprintProcess temp : boardSprintList) {
             count++;
             System.out.println("COUNT : "+count+"\n"+temp);
         }
@@ -51,9 +50,11 @@ public class test {
         for (Issue temp : boardSprintIssueList) {
             System.out.println("\n"+temp);
         }*/
-        for (Sprint temp : boardSprintList) {
+        for (SprintProcess temp : boardSprintList) {
             System.out.println(temp.results());
         }
       //  System.out.println(boardSprintList.get(10).issueTypes());
+
+
     }
 }
