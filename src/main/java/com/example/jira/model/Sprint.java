@@ -1,13 +1,17 @@
 package com.example.jira.model;
 
+import com.example.jira.api.ApiResponse;
+
 import javax.persistence.*;
 
 import java.util.Date;
 
 @Entity
-public class Sprint  {
+public class Sprint  extends ApiResponse<Sprint> {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int sprintId;
+
     private int id ;
     private String self;
     private String state ;
@@ -28,6 +32,25 @@ public class Sprint  {
     @ManyToOne
     @JoinColumn(name="BOARD_ID")
     private Board board ;
+
+    public Sprint() {
+    }
+
+    public Sprint(int id, String self, String state, String name, Date startDate, Date endDate, int originBoardId, String goal, int stpEngage, int stpRealise, int nbIssues, int usRealise, int usEngage) {
+        this.id = id;
+        this.self = self;
+        this.state = state;
+        this.name = name;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.originBoardId = originBoardId;
+        this.goal = goal;
+        this.stpEngage = stpEngage;
+        this.stpRealise = stpRealise;
+        this.nbIssues = nbIssues;
+        this.usRealise = usRealise;
+        this.usEngage = usEngage;
+    }
 
     // getters AND setters
     public int getUsEngage() {
@@ -68,6 +91,14 @@ public class Sprint  {
 
     public void setUsRealise(int usRealise) {
         this.usRealise = usRealise;
+    }
+
+    public int getSprintId() {
+        return sprintId;
+    }
+
+    public void setSprintId(int sprintId) {
+        this.sprintId = sprintId;
     }
 
     public int getId() {

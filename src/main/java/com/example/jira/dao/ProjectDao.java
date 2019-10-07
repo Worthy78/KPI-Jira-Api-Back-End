@@ -13,6 +13,7 @@ public interface ProjectDao extends JpaRepository<Project, Integer> {
     Project findById(int id);
 
     List<Project> findAll();
+
 /*
     @Query("SELECT id, nom, prix FROM Project p WHERE p.prix > :prixLimit")
     List<Project>  chercherUnProduitCher(@Param("prixLimit") int prix); */

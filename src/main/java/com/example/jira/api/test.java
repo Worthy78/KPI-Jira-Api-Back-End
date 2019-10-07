@@ -8,20 +8,32 @@ import java.util.List;
 
 public class test {
     public static void main(String[] args) {
-
+/*
         // Getting all projects
         List<ProjectProcess> projects = new ArrayList<>();
         WebClient client = (new Client()).getClient() ;
-        Flux< ProjectProcess> response = client.get()
-                .uri("/rest/api/2/project?")
+        Flux<ProjectProcess> response = client.get()
+                .uri("/rest/api/2/project")
+                .exchange()
+                .flatMapMany(clientResponse -> clientResponse.bodyToFlux(ProjectProcess.class));
+        response.subscribe(project -> System.out.println(project));
+
+ */
+   /*
+        // Getting all projects
+        List<ProjectProcess> projects = new ArrayList<>();
+        WebClient client = (new Client()).getClient() ;
+        Flux<UserTest> response = client.get()
+                .uri("/posts")
                 .retrieve()
-                .bodyToFlux(ProjectProcess.class);
-        response.subscribe(project -> System.out.println("TEST"+project));
+                .bodyToFlux(UserTest.class);
+        response.subscribe(project -> System.out.println("TEST"));
 
-        System.out.println("\n\nPROJECTS :" + response);
+*/
 
 
-        ProjectProcess aProject = new ProjectProcess("28","ESHOPB2C","Eshop B2C Board");
+
+        ProjectProcess aProject = new ProjectProcess("11703","ESHOPB2C","Eshop B2C Board");
         //Project aProject = new Project("10002","EDPS","Exemple de projet Scrum");
         // Getting Boards of a project
         //List<Board> boardList = projects.get(0).getAllBoard();;

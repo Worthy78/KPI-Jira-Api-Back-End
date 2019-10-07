@@ -73,7 +73,7 @@ public class ProjectProcess {
         WebClient client = (new Client()).getClient() ;
 
         BoardProcess response = client.get()
-                .uri("/rest/agile/1.0/board?type=scrum&projectKeyOrId="+key)
+                .uri("/rest/agile/1.0/board?type=scrum&projectKeyOrId="+id)
                 .retrieve()
                 .bodyToMono(BoardProcess.class).block();
 

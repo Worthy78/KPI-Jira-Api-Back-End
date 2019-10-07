@@ -3,16 +3,11 @@ package com.example.jira.api;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Flux;
 
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
 
 public class Client {
     private  WebClient client ;
-    private  String baseUrl = "http://jira.tools.orange-sonatel.com/";
+    private final String baseUrl = "http://jira.tools.orange-sonatel.com";
     public Client() {
 
             // Encode using basic encoder

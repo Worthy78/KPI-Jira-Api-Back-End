@@ -1,4 +1,5 @@
 package com.example.jira.api;
+import com.example.jira.model.Sprint;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 
@@ -138,17 +139,10 @@ public class SprintProcess  extends ApiResponse<SprintProcess> {
         this.report = response;
     }
 
-    /*    public int bugs(){
-            int nbBugs=0;
-            for (Issue issue:sptIssues)
-                if (issue.type().equals("bug") || issue.type().equals("boggue")) nbBugs = nbBugs++;
-            return nbBugs;
-        }
-
-        public int issuesTotalAmount(){
-            return  sptIssues.size() ;
-        }
-    */
+    public Sprint getSprint(){
+        report();
+        return new Sprint(id,self,state,name,startDate,endDate,originBoardId,goal,report.stpEngage(),report.stpRealise(),report.nbIssues(),report.usRealise(),report.usEngage());
+    }
     @Override
     public String toString() {
         return "Sprint{" +

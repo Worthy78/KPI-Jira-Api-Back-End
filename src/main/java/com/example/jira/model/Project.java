@@ -1,30 +1,33 @@
 package com.example.jira.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import com.example.jira.api.BoardProcess;
+import com.example.jira.api.Client;
+import org.springframework.web.reactive.function.client.WebClient;
+
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class Project {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private  int projectId;
+
     private String id;
-    private String key ;
-    private String description ;
     private String name ;
-    private String email;
-    private String style;
 
     @OneToMany(mappedBy = "project")
     private List<Board> board =  new ArrayList<>();
 
     public Project(String id, String key, String name) {
         this.id = id;
-        this.key = key;
+        //this.key = key;
         this.name = name;
+    }
+
+    public int getProjectId() {
+        return projectId;
     }
 
     public Project() {
@@ -37,22 +40,6 @@ public class Project {
         this.id = id;
     }
 
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getName() {
         return name;
     }
@@ -61,31 +48,25 @@ public class Project {
         this.name = name;
     }
 
-    public String getEmail() {
-        return email;
-    }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public List<Board> getAllBoard(){
+        WebClient client = (new Client()).getClient() ;
 
-    public String getStyle() {
-        return style;
-    }
+        Board response = client.get()
+                .uri("/rest/agile/1.0/board?type=scrum&projectKeyOrId="+id)
+                .retrieve()
+                .bodyToMono(Board.class).block();
 
-    public void setStyle(String style) {
-        this.style = style;
+        return response.getValues() ;
     }
 
     @Override
     public String toString() {
         return "Project{" +
-                "id='" + id + '\'' +
-                ", key='" + key + '\'' +
-                ", description='" + description + '\'' +
+                "projectId=" + projectId +
+                ", id='" + id + '\'' +
                 ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", style='" + style + '\'' +
+                ", board=" + board +
                 '}';
     }
 }

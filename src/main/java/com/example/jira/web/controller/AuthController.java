@@ -4,6 +4,7 @@ import com.example.jira.api.Client;
 import com.example.jira.api.Credential;
 import com.example.jira.api.User;
 import io.swagger.annotations.Api;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,14 +15,10 @@ import java.io.UnsupportedEncodingException;
 import java.util.Base64;
 
 @Api( description="API pour l'authification.")
-
+@CrossOrigin(origins = { "http://localhost:3000" })
 @RestController
 public class AuthController {
 
-    /*spring.datasource.url=jdbc:mysql://localhost:3306/restapi
-    spring.datasource.username=root
-    spring.datasource.password=root
-    */
     @PostMapping(value = "/authenticate")
     public User authentication( @RequestBody Credential credential) {
         // Encode using basic encoder
