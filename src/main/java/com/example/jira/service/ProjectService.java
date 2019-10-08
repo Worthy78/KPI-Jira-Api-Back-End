@@ -1,14 +1,12 @@
 package com.example.jira.service;
 
-import com.example.jira.api.Report;
-import com.example.jira.model.Board;
-import com.example.jira.model.Project;
+import com.example.jira.domain.Project;
 import reactor.core.publisher.Flux;
-
-import java.util.List;
+import reactor.core.publisher.Mono;
 
 public interface ProjectService {
-     Flux<Board> getAllBoard(String id) ;
-     Flux<Project> getAllProject();
-     Report report(int originBoardId, int id);
+
+    Flux<Project> allProjects();
+
+    Mono<Project> save(Project project);
 }

@@ -1,9 +1,7 @@
 package com.example.jira.api;
 
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Flux;
+import com.example.jira.service.dto.SprintProcess;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class test {
@@ -31,7 +29,7 @@ public class test {
 
 */
 
-
+/*
 
         ProjectProcess aProject = new ProjectProcess("11703","ESHOPB2C","Eshop B2C Board");
         //Project aProject = new Project("10002","EDPS","Exemple de projet Scrum");
@@ -53,20 +51,19 @@ public class test {
             System.out.println("COUNT : "+count+"\n"+temp);
         }
 
+
+
+
+
         // issues of the first sprint
        // ISSUE
        // List<Issue> boardSprintIssueList = boardSprintList.get(10).getAllIssue();
-/*
-        List<Issue> boardSprintIssueList = boardSprintList.get(10).getAllIssue();
-        System.out.println("BOARD SPRINT ISSUE LIST: "+boardSprintIssueList.size()+"\n");
-        for (Issue temp : boardSprintIssueList) {
-            System.out.println("\n"+temp);
-        }*/
+
         for (SprintProcess temp : boardSprintList) {
             System.out.println(temp.results());
         }
       //  System.out.println(boardSprintList.get(10).issueTypes());
-
+*/
 
     }
 }

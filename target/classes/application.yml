@@ -1,0 +1,15 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://localhost:3306/jirac
+    username: jiraspring
+    password: password
+
+application:
+  baseUrl: http://jira.tools.orange-sonatel.com
+  token: Basic c3RnX2VwdF9kczplcHQyMDE5
+
+server :
+    port : 9090

@@ -1,34 +1,30 @@
 package com.example.jira;
 
-import com.example.jira.api.*;
-import com.example.jira.dao.BoardDao;
-import com.example.jira.dao.ProjectDao;
-import com.example.jira.dao.SprintDao;
-import com.example.jira.model.Board;
-import com.example.jira.model.Project;
+import com.example.jira.api.Report;
+import com.example.jira.config.ApplicationProperties;
+import com.example.jira.service.BoardService;
 import com.example.jira.service.ProjectService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.jira.service.SprintService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
-import org.springframework.http.HttpHeaders;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @SpringBootApplication
 @EnableSwagger2
+@EnableConfigurationProperties({ApplicationProperties.class})
 public class DemoApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+    }
 }
 
+/*
 @Component
 class InitData implements CommandLineRunner {
 	private final WebClient webClient ;
@@ -109,7 +105,41 @@ class InitData implements CommandLineRunner {
 		/*
 		Project aProject = new Project("10002","EDPS","Exemple de projet Scrum");
 		aProject = ProjectDao.save(aProject);
-
-		 */
+        *
 	}
+}
+*/
+
+@Component
+class InitData implements CommandLineRunner {
+
+    private final ProjectService projectsService;
+    private final BoardService boardService;
+    private final SprintService sprintService;
+
+    InitData(ProjectService projectsService, BoardService boardService, SprintService sprintService) {
+        this.projectsService = projectsService;
+        this.boardService = boardService;
+        this.sprintService = sprintService;
+    }
+
+    @Override
+    public void run(String... args) {
+        projectsService
+                .allProjects()
+                .flatMap(projectsService::save)
+                .flatMap(project -> boardService.allBoardByProjects(project.getId())
+                        .flatMap(board -> boardService.save(board.toBuilder().project(project).build()))
+                        .flatMap(board -> sprintService.getAllSprint(board.getId())
+                                .flatMap(sprint -> {
+                                    Mono <Report> report = sprintService.getReport(sprint.getOriginBoardId(), sprint.getId());
+                                    report.map(theReport ->sprint.setReport(theReport) ).subscribe(theSprint ->  sprintService.save(theSprint.toBuilder().board(board).build()));
+                                    return report;
+                                })
+                        )
+                )
+                .then(Mono.just(true))
+                .subscribe(System.out::println);
+    }
+
 }

@@ -1,6 +1,6 @@
 package com.example.jira.web.controller;
 
-import com.example.jira.model.Project;
+import com.example.jira.domain.Project;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
