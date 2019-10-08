@@ -51,12 +51,10 @@ public class Project {
 
     public List<Board> getAllBoard(){
         WebClient client = (new Client()).getClient() ;
-
         Board response = client.get()
                 .uri("/rest/agile/1.0/board?type=scrum&projectKeyOrId="+id)
                 .retrieve()
                 .bodyToMono(Board.class).block();
-
         return response.getValues() ;
     }
 

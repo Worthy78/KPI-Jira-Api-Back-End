@@ -6,7 +6,7 @@ import com.example.jira.dao.ProjectDao;
 import com.example.jira.dao.SprintDao;
 import com.example.jira.model.Board;
 import com.example.jira.model.Project;
-import com.example.jira.model.Sprint;
+import com.example.jira.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -38,10 +38,11 @@ class InitData implements CommandLineRunner {
 	private ProjectDao ProjectDao;
 	@Autowired
 	private BoardDao  boardDao ;
-	@Autowired
-	private SprintDao sprintDao ;
-
-	InitData() {
+	private final SprintDao sprintDao ;
+	private  final ProjectService projectService ;
+	InitData(SprintDao sprintDao, ProjectService projectService) {
+		this.sprintDao = sprintDao;
+		this.projectService = projectService;
 		this.webClient = WebClient.builder()
 						.baseUrl(API_BASE_URL)
 						.defaultHeader(HttpHeaders.CONTENT_TYPE, API_MIME_TYPE)
@@ -51,16 +52,16 @@ class InitData implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-	/*
+
 		List<Project> projects = new ArrayList<>();
 		// GETTING ALL PROJECTS
-		WebClient client = (new Client()).getClient();
-		Flux<Project> response = client.get()
-				.uri("/rest/api/2/project")
-				.exchange()
-				.flatMapMany(clientResponse -> clientResponse.bodyToFlux(Project.class));
-		response.subscribe(project -> ProjectDao.save(project));
+	//	WebClient client = (new Client()).getClient();
+		projectService.getAllProject()
+				.map(project -> ProjectDao.saveAndFlush(project))
+				.flatMap(project -> projectService.getAllBoard(project.getId()))
+				.subscribe(project -> System.out.println("BD POPULATED"));
 
+		/*
 		// SAVING THEM
 		for (Project project : projects) {
 			ProjectDao.save(project);
@@ -69,8 +70,10 @@ class InitData implements CommandLineRunner {
 
 		System.out.println("ALL PROJECTS SAVED IN THE DATABASE");
 		//System.out.println(projects);
-		*/
+*/
 
+
+/*
 
 
 		// GETTING THEIR BOARDS

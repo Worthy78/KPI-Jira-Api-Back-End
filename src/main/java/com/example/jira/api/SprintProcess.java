@@ -131,7 +131,7 @@ public class SprintProcess  extends ApiResponse<SprintProcess> {
 
     private  void report(){
         WebClient client = (new Client()).getClient();
-        //System.out.println("HEREEEEE"+id);
+
         Report response = client.get()
                 .uri("/rest/greenhopper/1.0/rapid/charts/sprintreport?rapidViewId=" + originBoardId + "&sprintId=" + id )
                 .retrieve()
