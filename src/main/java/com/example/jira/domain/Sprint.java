@@ -1,8 +1,7 @@
 package com.example.jira.domain;
 
-import com.example.jira.api.Report;
+import com.example.jira.api.report.Report;
 import lombok.*;
-import reactor.core.publisher.Mono;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,10 +19,10 @@ public class Sprint implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long sprintId;
-
     private int id ;
+    //@GeneratedValue(strategy = GenerationType.AUTO)
+    //private Long sprintId;
+
     private String self;
     private String state ;
     private String name ;
@@ -50,6 +49,6 @@ public class Sprint implements Serializable {
             return this;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Board board ;
 }

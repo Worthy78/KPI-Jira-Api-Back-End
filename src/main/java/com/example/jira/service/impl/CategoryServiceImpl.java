@@ -1,10 +1,9 @@
 package com.example.jira.service.impl;
 
-
 import com.example.jira.config.ApplicationProperties;
-import com.example.jira.domain.Project;
-import com.example.jira.repository.ProjectRepository;
-import com.example.jira.service.ProjectService;
+import com.example.jira.domain.Category;
+import com.example.jira.repository.CategoryRepository;
+import com.example.jira.service.CategoryService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -13,14 +12,14 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
-public class ProjectServiceImpl implements ProjectService {
+public class CategoryServiceImpl implements CategoryService {
 
-    private final ProjectRepository projectRepository;
+    private final CategoryRepository categoryRepository;
     private final WebClient webClient;
     private final ApplicationProperties applicationProperties;
 
-    public ProjectServiceImpl(ProjectRepository projectRepository, ApplicationProperties applicationProperties) {
-        this.projectRepository = projectRepository;
+    public CategoryServiceImpl(CategoryRepository categoryRepository, ApplicationProperties applicationProperties) {
+        this.categoryRepository = categoryRepository;
         this.applicationProperties = applicationProperties;
         this.webClient = WebClient.builder()
                 .baseUrl(this.applicationProperties.getBaseUrl())
@@ -30,16 +29,17 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Flux<Project> allProjects(Long id) {
+    public Flux<Category> getAllCategories() {
         return webClient.get()
-                .uri("/rest/api/2/project")
+                .uri("/rest/api/2/projectCategory")
                 .exchange()
-                .flatMapMany(clientResponse -> clientResponse.bodyToFlux(Project.class));
+                .flatMapMany(clientResponse -> clientResponse.bodyToFlux(Category.class));
     }
 
     @Override
-    public Mono<Project> save(Project project) {
-        projectRepository.saveAndFlush(project);
-        return Mono.just(project);
+    public Mono<Category> save(Category category) {
+        categoryRepository.saveAndFlush(category);
+        return Mono.just(category);
     }
+
 }

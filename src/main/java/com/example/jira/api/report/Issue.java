@@ -1,4 +1,6 @@
-package com.example.jira.api;
+package com.example.jira.api.report;
+
+import com.example.jira.api.response.ApiResponse;
 
 public class Issue extends ApiResponse<Issue> {
    /* private String expand ;*/

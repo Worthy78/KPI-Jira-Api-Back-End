@@ -1,8 +1,9 @@
 package com.example.jira;
 
-import com.example.jira.api.Report;
+import com.example.jira.api.report.Report;
 import com.example.jira.config.ApplicationProperties;
 import com.example.jira.service.BoardService;
+import com.example.jira.service.CategoryService;
 import com.example.jira.service.ProjectService;
 import com.example.jira.service.SprintService;
 import org.springframework.boot.CommandLineRunner;
@@ -113,11 +114,13 @@ class InitData implements CommandLineRunner {
 @Component
 class InitData implements CommandLineRunner {
 
+    private final CategoryService categoryService;
     private final ProjectService projectsService;
     private final BoardService boardService;
     private final SprintService sprintService;
 
-    InitData(ProjectService projectsService, BoardService boardService, SprintService sprintService) {
+    InitData(CategoryService categoryService, ProjectService projectsService, BoardService boardService, SprintService sprintService) {
+        this.categoryService = categoryService;
         this.projectsService = projectsService;
         this.boardService = boardService;
         this.sprintService = sprintService;
@@ -125,6 +128,25 @@ class InitData implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+        categoryService
+                .getAllCategories()
+                .flatMap(categoryService::save)
+                .flatMap(category -> projectsService.allProjects(category.getId())
+                    .flatMap(project -> projectsService.save(project.toBuilder().category(category).build())))
+                        .flatMap(project -> boardService.allBoardByProjects(project.getId())
+                            .flatMap(board -> boardService.save(board.toBuilder().project(project).build()))
+                            .flatMap(board -> sprintService.getAllSprint(board.getId())
+                                .flatMap(sprint -> {
+                                    Mono <Report> report = sprintService.getReport(sprint.getOriginBoardId(), sprint.getId());
+                                    report.map(theReport -> sprint.setReport(theReport)).subscribe(theSprint ->  sprintService.save(theSprint.toBuilder().board(board).build()));
+                                    return report;
+                                })
+                        )
+                )
+                .then(Mono.just(true))
+                .subscribe(System.out::println);
+
+        /*
         projectsService
                 .allProjects()
                 .flatMap(projectsService::save)
@@ -133,13 +155,15 @@ class InitData implements CommandLineRunner {
                         .flatMap(board -> sprintService.getAllSprint(board.getId())
                                 .flatMap(sprint -> {
                                     Mono <Report> report = sprintService.getReport(sprint.getOriginBoardId(), sprint.getId());
-                                    report.map(theReport ->sprint.setReport(theReport) ).subscribe(theSprint ->  sprintService.save(theSprint.toBuilder().board(board).build()));
+                                    report.map(theReport -> sprint.setReport(theReport)).subscribe(theSprint ->  sprintService.save(theSprint.toBuilder().board(board).build()));
                                     return report;
                                 })
                         )
                 )
                 .then(Mono.just(true))
                 .subscribe(System.out::println);
+
+         */
     }
 
 }

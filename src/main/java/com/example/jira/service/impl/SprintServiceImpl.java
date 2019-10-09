@@ -1,6 +1,6 @@
 package com.example.jira.service.impl;
 
-import com.example.jira.api.Report;
+import com.example.jira.api.report.Report;
 import com.example.jira.config.ApplicationProperties;
 import com.example.jira.domain.Sprint;
 import com.example.jira.repository.SprintRepository;

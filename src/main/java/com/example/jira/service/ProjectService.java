@@ -6,7 +6,7 @@ import reactor.core.publisher.Mono;
 
 public interface ProjectService {
 
-    Flux<Project> allProjects();
+    Flux<Project> allProjects(Long id);
 
     Mono<Project> save(Project project);
 }

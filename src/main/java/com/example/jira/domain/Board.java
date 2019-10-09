@@ -20,17 +20,19 @@ public class Board implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long boardId ;
-
     private int id;
+    //@GeneratedValue(strategy = GenerationType.AUTO)
+    //private Long boardId;
+
     private String name;
     private String type;
 
-    @ManyToOne
-    @JoinColumn(name = "project_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    //@JoinColumn(name = "project_id")
     private Project project;
 
-    @OneToMany(mappedBy = "board")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "board")
     private Set<Sprint> sprint = new HashSet<>();
+
+
 }
