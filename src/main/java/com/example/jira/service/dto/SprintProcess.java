@@ -1,8 +1,7 @@
 package com.example.jira.service.dto;
-import com.example.jira.api.ApiResponse;
-import com.example.jira.api.Client;
-import com.example.jira.api.IssueType;
-import com.example.jira.api.Report;
+import com.example.jira.api.auth.Client;
+import com.example.jira.api.report.IssueType;
+import com.example.jira.api.report.Report;
 import com.example.jira.domain.Sprint;
 import lombok.*;
 import org.springframework.web.reactive.function.client.WebClient;

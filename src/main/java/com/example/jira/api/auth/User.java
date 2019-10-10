@@ -1,4 +1,4 @@
-package com.example.jira.api;
+package com.example.jira.api.auth;
 
 public class User {
     private String key ;

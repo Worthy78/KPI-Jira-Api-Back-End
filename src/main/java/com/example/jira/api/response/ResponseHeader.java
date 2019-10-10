@@ -1,4 +1,4 @@
-package com.example.jira.api;
+package com.example.jira.api.response;
 
 public class ResponseHeader {
     private int maxResult ;

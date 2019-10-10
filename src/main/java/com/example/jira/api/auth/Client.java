@@ -1,4 +1,4 @@
-package com.example.jira.api;
+package com.example.jira.api.auth;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;

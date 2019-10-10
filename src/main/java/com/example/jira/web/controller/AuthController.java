@@ -1,8 +1,8 @@
 package com.example.jira.web.controller;
 
-import com.example.jira.api.Client;
-import com.example.jira.api.Credential;
-import com.example.jira.api.User;
+import com.example.jira.api.auth.Client;
+import com.example.jira.api.auth.Credential;
+import com.example.jira.api.auth.User;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 import java.util.Base64;
 

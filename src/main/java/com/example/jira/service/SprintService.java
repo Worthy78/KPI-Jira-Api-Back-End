@@ -1,6 +1,6 @@
 package com.example.jira.service;
 
-import com.example.jira.api.Report;
+import com.example.jira.api.report.Report;
 import com.example.jira.domain.Sprint;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

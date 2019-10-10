@@ -1,6 +1,6 @@
 package com.example.jira.service.impl;
 
-import com.example.jira.api.Report;
+import com.example.jira.api.report.Report;
 import com.example.jira.config.ApplicationProperties;
 import com.example.jira.domain.Sprint;
 import com.example.jira.repository.SprintRepository;
@@ -33,12 +33,12 @@ public class SprintServiceImpl implements SprintService {
 
     @Override
     public Mono<Report> getReport(int originBoardId, int id) {
-        log.info("SPRINT BEFORE ERROR orgID {} id {} ", originBoardId, id);
+        //log.info("SPRINT BEFORE ERROR orgID {} id {} ", originBoardId, id);
         Mono <Report> report =  webClient.get()
                 .uri("/rest/greenhopper/1.0/rapid/charts/sprintreport?rapidViewId=" + originBoardId + "&sprintId=" + id )
                 .retrieve()
                 .bodyToMono(Report.class);
-        log.info("SPRINT AFTER ERROR orgID {} id {} ", originBoardId, id);
+        //log.info("SPRINT AFTER ERROR orgID {} id {} ", originBoardId, id);
                 //.doOnError(e ->e.printStackTrace());
        // report.subscribe(thereport -> log.info("REPORT { }", thereport));
         return report;
