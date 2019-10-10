@@ -41,7 +41,7 @@ public class BoardServiceImpl implements BoardService {
                 .uri("/rest/agile/1.0/board?type=scrum&projectKeyOrId="+id)
                 .retrieve()
                 .bodyToMono(BoardProcess.class);
-        //response.subscribe(boardProcess -> log.info("BOARD {", boardProcess,"} "));
+        //response.subscribe(boardProcess -> log.info("BOARD {", boardProcess));
 
         return response.map(BoardProcess::getValues).flatMapMany(Flux::fromIterable);
     }

@@ -33,10 +33,14 @@ public class SprintServiceImpl implements SprintService {
 
     @Override
     public Mono<Report> getReport(int originBoardId, int id) {
+        log.info("SPRINT BEFORE ERROR orgID {} id {} ", originBoardId, id);
         Mono <Report> report =  webClient.get()
                 .uri("/rest/greenhopper/1.0/rapid/charts/sprintreport?rapidViewId=" + originBoardId + "&sprintId=" + id )
                 .retrieve()
                 .bodyToMono(Report.class);
+        log.info("SPRINT AFTER ERROR orgID {} id {} ", originBoardId, id);
+                //.doOnError(e ->e.printStackTrace());
+       // report.subscribe(thereport -> log.info("REPORT { }", thereport));
         return report;
     }
 

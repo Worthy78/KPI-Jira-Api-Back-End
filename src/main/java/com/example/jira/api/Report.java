@@ -37,7 +37,7 @@ public class Report {
         return count ;
     }
 
-    public int bug(){
+    public int bugs(){
         int count=0;
         for (ReportIssue issue : contents.getCompletedIssues()) {
             if(issue.getTypeId().equals("10004"))

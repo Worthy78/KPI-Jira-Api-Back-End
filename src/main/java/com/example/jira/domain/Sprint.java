@@ -39,6 +39,7 @@ public class Sprint implements Serializable {
     private int nbIssues;
     private int usRealise;
     private int usEngage;
+    private int bugs ;
 
     public Sprint setReport (Report report){
             stpEngage = report.stpEngage();
@@ -46,7 +47,8 @@ public class Sprint implements Serializable {
             nbIssues = report.nbIssues();
             usRealise = report.usRealise();
             usEngage = report.usEngage() ;
-            System.out.println( toString());
+            bugs = report.bugs();
+            //System.out.println( toString());
             return this;
     }
 

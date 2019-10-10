@@ -85,7 +85,7 @@ public class SprintProcess  {
                 "Date de Début : " + startDate +"\n"+
                 "Date de Fin : " + endDate +"\n"+
                 "Nombre d'issues : " + report.nbIssues() +"\n"+
-                "BUG " + report.bug() +"\n"+
+                "BUG " + report.bugs() +"\n"+
                 "US Engagé : " + report.usEngage()  +"\n"+
                 "US Réalisé : " + report.usRealise()  +"\n"+
                 "STP Engagé : " + report.stpEngage()  +"\n"+
