@@ -21,8 +21,8 @@ public class Project implements Serializable {
 
     @Id
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private  Long projectId;
+   // @GeneratedValue(strategy = GenerationType.AUTO)
+   // private  Long projectId;
 
     private String id;
     private String name ;

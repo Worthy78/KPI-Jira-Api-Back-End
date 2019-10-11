@@ -20,8 +20,8 @@ public class Sprint implements Serializable {
 
     @Id
     private int id ;
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long sprintId;
+   // @GeneratedValue(strategy = GenerationType.AUTO)
+   // private Long sprintId;
 
     private String self;
     private String state ;
@@ -50,5 +50,6 @@ public class Sprint implements Serializable {
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
     private Board board ;
 }

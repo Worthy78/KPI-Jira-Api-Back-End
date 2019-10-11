@@ -20,15 +20,15 @@ public class Board implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long boardId;
+    //@GeneratedValue(strategy = GenerationType.AUTO)
+   // private Long boardId;
 
     private int id;
     private String name;
     private String type;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "project_id")
+    @JoinColumn
     private Project project;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "board")
