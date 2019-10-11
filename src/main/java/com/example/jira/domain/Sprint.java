@@ -28,7 +28,6 @@ public class Sprint implements Serializable {
     private String name ;
     private String startDate ;
     private String endDate ;
-    // I've remark that sometimes this property isn't set in the api response
     private int originBoardId ;
     private String goal ;
 
@@ -47,7 +46,6 @@ public class Sprint implements Serializable {
             usRealise = report.usRealise();
             usEngage = report.usEngage() ;
             bugs = report.bugs();
-            //System.out.println( toString());
             return this;
     }
 
