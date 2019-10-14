@@ -1,6 +1,7 @@
 package com.example.jira.domain;
 
 import com.example.jira.api.report.Report;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -39,6 +40,14 @@ public class Sprint implements Serializable {
     private int usEngage;
     private int bugs ;
 
+    // KPIs
+    private int completude ;
+    private int acceptanceUs ;
+    private int acceleration ;
+    private int velocite;
+    private int dureeSprint;
+    private int dureeEntreDeuxSprint;
+
     public Sprint setReport (Report report){
             stpEngage = report.stpEngage();
             stpRealise = report.stpRealise() ;
@@ -49,7 +58,16 @@ public class Sprint implements Serializable {
             return this;
     }
 
+    public void kpi (){
+        if(stpEngage>0)
+        completude = (int) Math.round((double)stpRealise/stpEngage*100 );
+        if(usRealise>0)
+        acceptanceUs =(int) Math.round((double)usRealise/usEngage*100 );
+        //dureeSprint =
+    }
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
+    @JsonIgnore
     private Board board ;
 }

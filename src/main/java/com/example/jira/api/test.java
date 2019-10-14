@@ -1,11 +1,37 @@
 package com.example.jira.api;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.*;
 
+import com.example.jira.domain.Sprint;
+import com.example.jira.repository.SprintRepository;
 import com.example.jira.service.dto.SprintProcess;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
 
 public class test {
+    public static  long countWeekDaysMath ( LocalDate start , LocalDate stop ) {
+        // Code taken from Answer by Roland.
+        // https://stackoverflow.com/a/44942039/642706
+        long count = 0;
+        final DayOfWeek startW = start.getDayOfWeek();
+        final DayOfWeek stopW = stop.getDayOfWeek();
+
+        final long days = ChronoUnit.DAYS.between( start , stop );
+        final long daysWithoutWeekends = days - 2 * ( ( days + startW.getValue() ) / 7 );
+
+        //adjust for starting and ending on a Sunday:
+        count = daysWithoutWeekends + ( startW == DayOfWeek.SUNDAY ? 1 : 0 ) + ( stopW == DayOfWeek.SUNDAY ? 1 : 0 );
+
+        return count;
+    }
+    @Autowired
+    public static  SprintRepository sprint ;
     public static void main(String[] args) {
+
 /*
         // Getting all projects
         List<ProjectProcess> projects = new ArrayList<>();
@@ -65,5 +91,31 @@ public class test {
       //  System.out.println(boardSprintList.get(10).issueTypes());
 */
 
+
+        /*Optional <Sprint> aSprint = sprint.findById(728);
+        aSprint.ifPresent(sprint1 -> {
+            System.out.println(sprint1);
+        });
+        LocalDate start = LocalDate.of( 2016 , 1 , 23 );
+        LocalDate stop = start.plusMonths( 1 );
+
+        System.out.println(countWeekDaysMath(start, stop ));
+        */
+
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd-MM-yyy", Locale.ENGLISH);
+        LocalDate date = LocalDate.parse("2019-05-21T09:36:00.000Z", inputFormatter);
+        String formattedDate = outputFormatter.format(date);
+        System.out.println(formattedDate);
+
+
+
+
+
+int usRealise =15;
+int usEngage =18;
+        int result ;
+result =(int) Math.round((double)36/41*100 );
+        System.out.println(result);
     }
 }

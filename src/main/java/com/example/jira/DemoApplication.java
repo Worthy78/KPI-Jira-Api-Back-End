@@ -47,10 +47,7 @@ class InitData implements CommandLineRunner {
         this.sprintService = sprintService;
     }
 
-    @Override
-    public void run(String... args) {
-
-        ;
+    public void updateDB() {
         categoryService
                 .getAllCategories()
                 .flatMap(categoryService::save)
@@ -61,38 +58,42 @@ class InitData implements CommandLineRunner {
                         // NOW POPULATING THE BD
                         .flatMap(project -> boardService
                                 .allBoardByProjects(project.getId())
+
                                 .flatMap(board -> boardService.save(board.toBuilder().project(project).build()))
                                 .flatMap(board -> sprintService.getAllSprint(board.getId())
-                                                .map(sprint -> sprintService.getReport(sprint.getOriginBoardId(), sprint.getId())
-                                                        .map(report -> {
-                                                            sprintService.save(sprint.setReport(report).toBuilder().board(board).build());
-                                                            return Mono.just(true);
-                                                        }).subscribe()
-                                                )
+                                        .map(sprint -> sprintService.getReport(sprint.getOriginBoardId(), sprint.getId())
+                                                .map(report -> {
+                                                    Sprint theSprint = sprint.setReport(report);
+                                                    theSprint.kpi();
+                                                    sprintService.save(theSprint.toBuilder().board(board).build());
+                                                    return Mono.just(true);
+                                                }).subscribe()
+                                        )
                                 )
                         )
                         .then(Mono.just("true"))
-                        .subscribe(project->log.info("GOT PROJECTS",project) )
+                        .subscribe(
+                                success -> {
+                                    log.info("GOT  PROJECTS");
+                                },
+                                error -> {
+                                    log.info("PROJECTS ERROR");
+                                })
                 ).then(Mono.just(true))
                 .subscribe(
-                        sucess -> {log.info("GOT  CATEGORIES");},
-                        error -> {log.info("CATEGORY ERROR");}
+                        success -> {
+                            log.info("GOT  CATEGORIES");
+                        },
+                        error -> {
+                            log.info("CATEGORY ERROR");
+                        }
                 );
     }
 
-    private void allCategorie() {
-        categoryService
-                .getAllCategories()
-                .flatMap(cate -> {
-                    log.info("CATEGORIE {} ", cate);
-                    return categoryService.save(cate);
-                })
-                .then(Mono.just("true"))
-                .map(val -> {
-                    log.info("VALUE {} ", val);
-                    return val;
-                })
-                .subscribe(val -> log.info("finish"));
+    @Override
+    public void run(String... args) {
+        //updateDB();
     }
+
 
 }

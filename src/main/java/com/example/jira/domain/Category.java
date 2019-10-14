@@ -1,5 +1,6 @@
 package com.example.jira.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,5 +27,6 @@ public class Category implements Serializable {
 
    // @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "projectCategory")
+    @JsonIgnore
     private Set<Project> projects =  new HashSet<>();
 }
