@@ -1,6 +1,4 @@
-package com.example.jira.api.auth;
-
-import com.fasterxml.jackson.annotation.JsonRawValue;
+package com.example.jira.service.dto;
 import lombok.*;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -9,7 +7,7 @@ import java.util.HashMap;
 @Setter
 @EqualsAndHashCode
 @ToString
-public class User implements Serializable {
+public class UserDto implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String key ;

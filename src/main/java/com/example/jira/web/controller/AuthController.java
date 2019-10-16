@@ -2,8 +2,10 @@ package com.example.jira.web.controller;
 
 import com.example.jira.api.auth.Client;
 import com.example.jira.api.auth.Credential;
-import com.example.jira.api.auth.User;
+import com.example.jira.service.AuthService;
+import com.example.jira.service.dto.UserDto;
 import io.swagger.annotations.Api;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,8 +20,11 @@ import java.util.Base64;
 @RestController
 public class AuthController {
 
+    @Autowired
+    AuthService authService;
+
     @PostMapping(value = "/authenticate")
-    public User authentication( @RequestBody Credential credential) {
+    public UserDto authentication(@RequestBody Credential credential) {
         // Encode using basic encoder
         String token ="";
         try{
@@ -30,12 +35,8 @@ public class AuthController {
             System.out.println("Error :" + e.getMessage());
         }
 
-        WebClient client = (new Client(token)).getClient();
-        User response = client.get()
-                .uri("/rest/api/2/user?username="+credential.getUsername())
-                .retrieve()
-                .bodyToMono(User.class).block();
-        response.setToken(token);
-    return  response ;
+
+       // response.setToken(token);
+    return  authService.login(credential,token).block() ;
     }
 }

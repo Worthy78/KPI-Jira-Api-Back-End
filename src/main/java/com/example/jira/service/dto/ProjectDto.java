@@ -21,4 +21,5 @@ public class ProjectDto implements Serializable {
 
     private Set<Board> boards =  new HashSet<>();
 
+    private Category projectCategory;
 }

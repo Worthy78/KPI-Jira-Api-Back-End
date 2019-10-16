@@ -26,10 +26,6 @@ public class DemoApplication {
         SpringApplication.run(DemoApplication.class, args);
     }
 }
-		/*
-		Project aProject = new Project("10002","EDPS","Exemple de projet Scrum");
-		aProject = ProjectDao.save(aProject);
-        */
 
 @Component
 @Slf4j
@@ -95,6 +91,5 @@ class InitData implements CommandLineRunner {
     public void run(String... args) {
         updateDB();
     }
-
 
 }
