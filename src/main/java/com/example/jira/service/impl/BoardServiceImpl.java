@@ -2,18 +2,22 @@ package com.example.jira.service.impl;
 
 import com.example.jira.config.ApplicationProperties;
 import com.example.jira.domain.Board;
-import com.example.jira.domain.Sprint;
 import com.example.jira.repository.BoardRepository;
 import com.example.jira.service.BoardService;
+import com.example.jira.service.dto.BoardDto;
 import com.example.jira.service.dto.BoardProcess;
-import com.example.jira.service.dto.SprintProcess;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -43,7 +47,22 @@ public class BoardServiceImpl implements BoardService {
                 .bodyToMono(BoardProcess.class);
         //response.subscribe(boardProcess -> log.info("BOARD {", boardProcess));
 
-        return response.map(BoardProcess::getValues).flatMapMany(Flux::fromIterable);
+        return  response.map(BoardProcess::getValues).flatMapMany(boardDtos  -> {
+            return Flux.fromIterable(boardDtos
+                    .stream()
+                    .map(boardDto -> {
+                        Board aBoard = new Board();
+                        BeanUtils.copyProperties(boardDto,aBoard);
+                        return aBoard;
+                    }).collect(Collectors.toList()));
+           /* List<Board> boards = new ArrayList<>();
+            Board aBoard = new Board();
+            for (BoardDto boardDto : boardDtos){
+                BeanUtils.copyProperties(boardDto,aBoard);
+                boards.add(aBoard);
+            }
+            return Flux.fromIterable(boards);*/
+        });
     }
 
     @Override

@@ -19,7 +19,8 @@ public class BoardController {
     @GetMapping(path = "/boards")
     public List<Board> getBoards() {
         List<Board> boards = boardRepository.findAll();
-        System.out.println(boards);
+        //System.out.println(boards);
+
         return boards;
     }
 

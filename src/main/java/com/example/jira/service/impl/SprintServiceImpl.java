@@ -5,14 +5,17 @@ import com.example.jira.config.ApplicationProperties;
 import com.example.jira.domain.Sprint;
 import com.example.jira.repository.SprintRepository;
 import com.example.jira.service.SprintService;
-import com.example.jira.service.dto.SprintProcess;
+import com.example.jira.service.dto.SprintDto;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -33,26 +36,52 @@ public class SprintServiceImpl implements SprintService {
 
     @Override
     public Mono<Report> getReport(int originBoardId, int id) {
-        final String  url = "/rest/greenhopper/1.0/rapid/charts/sprintreport?rapidViewId=" + originBoardId + "&sprintId=" + id;
-        Mono <Report> report =  webClient.get()
-                .uri(url )
+        final String url = "/rest/greenhopper/1.0/rapid/charts/sprintreport?rapidViewId=" + originBoardId + "&sprintId=" + id;
+        Mono<Report> report = webClient.get()
+                .uri(url)
                 .retrieve()
                 .bodyToMono(Report.class)
                 .doOnError(e -> {
-                    log.info("ERROR URL -- {}",this.applicationProperties.getBaseUrl()+url);
-                    Mono.empty();});
-                //.doOnError(e ->e.printStackTrace());
+                    log.info("ERROR URL -- {}", this.applicationProperties.getBaseUrl() + url);
+                    Mono.empty();
+                });
+        //.doOnError(e ->e.printStackTrace());
         return report;
     }
 
-    public Flux<Sprint> getAllSprint(int id){
-        Mono<SprintProcess>  response = webClient.get()
-                .uri("rest/agile/1.0/board/"+id+"/sprint?")
-                .retrieve()
-                .bodyToMono(SprintProcess.class);
+    public Flux<Sprint> getAllSprint(int id) {
+        return webClient.get()
+                .uri("rest/agile/1.0/board/" + id + "/sprint?")
+                .exchange()
+                .flatMapMany(clientResponse -> clientResponse.bodyToMono(SprintDto.class))
+                .map(SprintDto::getValues)
+                .map(sprintDtos -> Flux.fromIterable(
+                        sprintDtos
+                        .stream()
+                        .map(sprintDto -> {
+                            Sprint aSprint = new Sprint();
+                            BeanUtils.copyProperties(sprintDto, aSprint);
+                            return aSprint;
+                        }).collect(Collectors.toList())
+                        )
+                )
+                .flatMap(sprintFlux -> sprintFlux)
+        ;
 
-        return response.map(SprintProcess::getValues).flatMapMany(Flux::fromIterable);
     }
+
+    /*
+    public List<IssueType>  issueTypes (){
+        List<IssueType> issueTypes = new ArrayList<>();
+        WebClient client = (new Client()).getClient() ;
+        Flux< IssueType> response = client.get()
+                .uri("/rest/api/2/issuetype")
+                .retrieve()
+                .bodyToFlux(IssueType.class);
+        response.subscribe(project -> issueTypes.add(project));
+        return  issueTypes;
+    }
+ */
 
     @Override
     public Mono<Sprint> save(Sprint sprint) {

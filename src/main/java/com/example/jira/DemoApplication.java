@@ -77,7 +77,8 @@ class InitData implements CommandLineRunner {
                                     log.info("GOT  PROJECTS");
                                 },
                                 error -> {
-                                    log.info("PROJECTS ERROR");
+                                    error.printStackTrace();
+                                    log.info("PROJECTS ERROR "+error.getMessage());
                                 })
                 ).then(Mono.just(true))
                 .subscribe(
@@ -85,14 +86,14 @@ class InitData implements CommandLineRunner {
                             log.info("GOT  CATEGORIES");
                         },
                         error -> {
-                            log.info("CATEGORY ERROR");
+                            log.info("CATEGORY ERROR : "+error.getMessage());
                         }
                 );
     }
 
     @Override
     public void run(String... args) {
-        //updateDB();
+        updateDB();
     }
 
 

@@ -1,5 +1,6 @@
 package com.example.jira.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -29,6 +30,7 @@ public class Board implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
+   // @JsonManagedReference
     private Project project;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "board")

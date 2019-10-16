@@ -1,11 +1,13 @@
 package com.example.jira.domain;
 
 import com.example.jira.api.report.Report;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -27,8 +29,11 @@ public class Sprint implements Serializable {
     private String self;
     private String state ;
     private String name ;
-    private String startDate ;
-    private String endDate ;
+
+    //@JsonFormat(shape= JsonFormat.Shape.STRING , pattern = "dd-MM-yy hh:mm:ss")
+    private Date startDate ;
+
+    private Date endDate ;
     private int originBoardId ;
     private String goal ;
 
@@ -68,6 +73,6 @@ public class Sprint implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
-    @JsonIgnore
+   // @JsonIgnore
     private Board board ;
 }

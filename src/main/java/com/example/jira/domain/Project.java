@@ -1,5 +1,7 @@
 package com.example.jira.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -27,9 +29,11 @@ public class Project implements Serializable {
     private String name ;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "project")
+   // @JsonBackReference
     private Set<Board> boards =  new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
+    //@JsonBackReference
     private Category projectCategory;
 }

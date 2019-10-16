@@ -4,6 +4,8 @@ import com.example.jira.config.ApplicationProperties;
 import com.example.jira.domain.Category;
 import com.example.jira.repository.CategoryRepository;
 import com.example.jira.service.CategoryService;
+import com.example.jira.service.dto.CategoryDto;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -33,7 +35,12 @@ public class CategoryServiceImpl implements CategoryService {
         return webClient.get()
                 .uri("/rest/api/2/projectCategory")
                 .exchange()
-                .flatMapMany(clientResponse -> clientResponse.bodyToFlux(Category.class));
+                .flatMapMany(clientResponse -> clientResponse.bodyToFlux(CategoryDto.class))
+                .flatMap(categoryDto -> {
+                    Category aCategory = new Category() ;
+                    BeanUtils.copyProperties(categoryDto, aCategory);
+                    return Mono.just(aCategory);
+                });
     }
 
     @Override

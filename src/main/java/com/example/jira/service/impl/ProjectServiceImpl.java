@@ -5,12 +5,17 @@ import com.example.jira.config.ApplicationProperties;
 import com.example.jira.domain.Project;
 import com.example.jira.repository.ProjectRepository;
 import com.example.jira.service.ProjectService;
+import com.example.jira.service.dto.ProjectDto;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
@@ -34,7 +39,22 @@ public class ProjectServiceImpl implements ProjectService {
         return webClient.get()
                 .uri("/rest/api/2/project")
                 .exchange()
-                .flatMapMany(clientResponse -> clientResponse.bodyToFlux(Project.class));
+                .flatMapMany(clientResponse -> clientResponse.bodyToFlux(ProjectDto.class))
+                .flatMap(
+                        projectDto -> {
+                            Project aProject = new Project() ;
+                            BeanUtils.copyProperties(projectDto, aProject);
+                            return Mono.just(aProject);
+                        }
+                );
+/*
+        List<Board> boards = new ArrayList<>();
+        Board aBoard = new Board();
+        for (BoardDto boardDto : boardDtos){
+            BeanUtils.copyProperties(boardDto,aBoard);
+            boards.add(aBoard);
+        }
+        return Flux.fromIterable(boards);*/
     }
 
     @Override

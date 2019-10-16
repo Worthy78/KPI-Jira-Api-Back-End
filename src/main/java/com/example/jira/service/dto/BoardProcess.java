@@ -13,5 +13,5 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BoardProcess {
-    private List<Board> values;
+    private List<BoardDto> values;
 }

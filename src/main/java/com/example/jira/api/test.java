@@ -3,14 +3,10 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.*;
 
-import com.example.jira.domain.Sprint;
 import com.example.jira.repository.SprintRepository;
-import com.example.jira.service.dto.SprintProcess;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 
 public class test {
     public static  long countWeekDaysMath ( LocalDate start , LocalDate stop ) {

@@ -51,11 +51,14 @@ public class SprintController {
 
         Optional<Sprint> sprint = sprintRepository.findById(id);
         Sprint theSprint = sprint.get();
+       /*
         LocalDate start = formatDate(theSprint.getStartDate()) ;
         LocalDate stop = formatDate(theSprint.getEndDate());
         DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd-MM-yyy", Locale.ENGLISH);
         System.out.println("START : "+outputFormatter.format(start)+ " END : "+outputFormatter.format(stop));
         System.out.println("ICI : "+countWeekDaysMath(start,stop));
+
+        */
        // sprint.get()
         return theSprint;
     }
