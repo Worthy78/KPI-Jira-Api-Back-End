@@ -27,7 +27,7 @@ public class AuthServiceImpl implements AuthService {
         return  WebClient.builder()
                 .baseUrl(this.applicationProperties.getBaseUrl())
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .defaultHeaders(header -> header.set(HttpHeaders.AUTHORIZATION,token))
+                .defaultHeaders(header -> header.set(HttpHeaders.AUTHORIZATION, "Basic "+token))
                 .build()
                 .get()
                 .uri("/rest/api/2/user?username="+credential.getUsername())

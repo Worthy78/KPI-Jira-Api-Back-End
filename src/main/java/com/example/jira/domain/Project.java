@@ -1,7 +1,8 @@
 package com.example.jira.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.example.jira.service.dto.BoardSerializer;
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,10 +14,11 @@ import java.util.Set;
 @Getter
 @Setter
 @EqualsAndHashCode
-@ToString(exclude = {"boards"})
+@ToString //(exclude = {"boards"})
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class Project implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -28,12 +30,16 @@ public class Project implements Serializable {
     private String id;
     private String name ;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "project")
-   // @JsonBackReference
+    @OneToMany( mappedBy = "project")
+    //@JsonSerialize(using = BoardSerializer.class)
+    //  @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+   // @JsonIdentityReference(alwaysAsId = true)
+    @JsonIgnore
     private Set<Board> boards =  new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn
-    //@JsonBackReference
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
     private Category projectCategory;
 }

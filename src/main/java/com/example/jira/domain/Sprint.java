@@ -1,9 +1,9 @@
 package com.example.jira.domain;
 
 import com.example.jira.api.report.Report;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.*;
 import lombok.*;
+
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -17,6 +17,10 @@ import java.util.Date;
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
+
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+//@JsonIdentityReference(alwaysAsId = true)
+
 public class Sprint implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -71,8 +75,9 @@ public class Sprint implements Serializable {
         //dureeSprint =
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn
-   // @JsonIgnore
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
     private Board board ;
 }

@@ -1,6 +1,11 @@
+## Spring DATASOURCE (DataSourceAutoConfiguration & DataSourceProperties)
 spring:
+  ## Hibernate Properties
   jpa:
     hibernate:
+      # The SQL dialect makes Hibernate generate better SQL for the chosen database
+      dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+      # Hibernate ddl auto (create, create-drop, validate, update)
       ddl-auto: update
   datasource:
     url: jdbc:mysql://localhost:3306/jiradb
@@ -11,5 +16,12 @@ application:
   baseUrl: http://jira.tools.orange-sonatel.com
   token: Basic c3RnX2VwdF9kczplcHQyMDE5
 
-server :
-    port : 9090
+server:
+  port: 9090
+
+  # Logs sql statements
+  #logging:
+   # level:
+    #  org:
+     # hibernate:
+      #  SQL: DEBUG

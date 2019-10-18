@@ -35,7 +35,6 @@ public class AuthController {
             System.out.println("Error :" + e.getMessage());
         }
 
-
        // response.setToken(token);
     return  authService.login(credential,token).block() ;
     }

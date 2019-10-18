@@ -1,8 +1,6 @@
 package com.example.jira.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,6 +16,7 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class Category implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -29,7 +28,7 @@ public class Category implements Serializable {
     private String name;
 
    // @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "projectCategory")
-    //@JsonManagedReference
+    @OneToMany( mappedBy = "projectCategory")
+    @JsonIgnore
     private Set<Project> projects =  new HashSet<>();
 }

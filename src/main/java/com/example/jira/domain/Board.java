@@ -1,6 +1,6 @@
 package com.example.jira.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import lombok.*;
 
 import javax.persistence.*;
@@ -16,6 +16,8 @@ import java.util.Set;
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
+
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Board implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -28,13 +30,14 @@ public class Board implements Serializable {
     private String name;
     private String type;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn
-   // @JsonManagedReference
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
     private Project project;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "board")
+    @OneToMany(mappedBy = "board")
+    @JsonIgnore
     private Set<Sprint> sprint = new HashSet<>();
-
 
 }
