@@ -15,8 +15,8 @@ public class SwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.ecommerce.microcommerce.web"))
-                .paths(PathSelectors.regex("/Produits.*"))
+                .apis(RequestHandlerSelectors.basePackage("com.example.jira.web"))
+                .paths(PathSelectors.any())
                 .build();
     }
 }

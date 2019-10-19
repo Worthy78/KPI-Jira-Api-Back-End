@@ -6,10 +6,12 @@ import com.example.jira.web.exceptions.ResourceNotFoundException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -19,34 +21,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
-@Api( description="API pour es opérations CRUD sur les Sprints.")
+@Api(description = "API pour es opérations CRUD sur les Sprints.")
 
 @RestController
-@CrossOrigin(origins = { "http://localhost:3000" })
 public class SprintController {
     @Autowired
-    private  SprintRepository sprintRepository;
-
-    public   long countWeekDaysMath (LocalDate start , LocalDate stop ) {
-        // Code taken from Answer by Roland.
-        // https://stackoverflow.com/a/44942039/642706
-        long count = 0;
-        final DayOfWeek startW = start.getDayOfWeek();
-        final DayOfWeek stopW = stop.getDayOfWeek();
-
-        final long days = ChronoUnit.DAYS.between( start , stop );
-        final long daysWithoutWeekends = days - 2 * ( ( days + startW.getValue() ) / 7 );
-
-        //adjust for starting and ending on a Sunday:
-        count = daysWithoutWeekends + ( startW == DayOfWeek.SUNDAY ? 1 : 0 ) + ( stopW == DayOfWeek.SUNDAY ? 1 : 0 );
-
-        return count;
-    }
-    public LocalDate formatDate(String newDate){
-        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
-        LocalDate date = LocalDate.parse(newDate, inputFormatter);
-        return  date;
-    }
+    private SprintRepository sprintRepository;
 
     @ApiOperation(value = "Récupère un sprint grâce à son ID à condition que celui-ci soit en présent!")
     @GetMapping(value = "/sprint/{id}")
@@ -63,14 +43,28 @@ public class SprintController {
         System.out.println("ICI : "+countWeekDaysMath(start,stop));
 
         */
-       // sprint.get()
+        // sprint.get()
         return theSprint;
     }
+
     @GetMapping(value = "/sprint/board/{boardId}")
-    public   List <Sprint> getProjectBoardSprints(@PathVariable Integer boardId) {
-        List <Sprint> sprintList = sprintRepository.findByBoardId(boardId);
-        if(sprintList==null ||sprintList.size()==0) throw new ResourceNotFoundException("les Sprint du tableau", boardId);
-        return sprintList;
+    public Page<Sprint> getProjectBoardSprints(
+            @PathVariable Integer boardId,
+            @PageableDefault(page = 0, size = 5)
+            @SortDefault.SortDefaults({
+                    @SortDefault(sort = "startDate", direction = Sort.Direction.DESC),
+                    // @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+            }) Pageable pageable,
+            @RequestParam(value ="state", defaultValue = "foo") final String state //for filtering purpose
+    ) {
+        System.out.println(pageable);
+        //System.out.println(state);
+        if (state.equals("foo"))
+            return sprintRepository.findByBoardId(boardId, pageable);
+        else
+            return sprintRepository.findByBoardIdAndState(boardId, state,pageable);
+
+        //if(sprintList==null ||sprintList.size()==0) throw new ResourceNotFoundException("les Sprint du tableau", boardId);
     }
 }
 

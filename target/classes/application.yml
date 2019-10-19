@@ -11,13 +11,24 @@ spring:
     url: jdbc:mysql://localhost:3306/jiradb
     username: jiraspring
     password: password
+  data :
+      web :
+          pageable :
+              size-parameter : size
+              page-parameter : page
+              default-page-size : 10
+              one-indexed-parameters : true
+              max-page-size : 2000
 
+  jackson :
+      date-format : yyyy-MM-dd HH:mm:ss
 application:
   baseUrl: http://jira.tools.orange-sonatel.com
   token: Basic c3RnX2VwdF9kczplcHQyMDE5
 
 server:
   port: 9090
+
 
   # Logs sql statements
   #logging:

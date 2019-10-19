@@ -16,7 +16,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.Base64;
 
 @Api( description="API pour l'authification.")
-@CrossOrigin(origins = { "http://localhost:3000" })
 @RestController
 public class AuthController {
 

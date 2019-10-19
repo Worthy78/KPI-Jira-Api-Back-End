@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Api( description="API pour es opérations CRUD sur les Boards.")
-@CrossOrigin(origins = { "http://localhost:3000" })
 @RestController
 public class BoardController {
     @Autowired
@@ -32,8 +31,6 @@ public class BoardController {
     public  List<Board> projectBoards(@PathVariable String id)   {
 
         List<Board> boards = boardRepository.findByProjectId(id);
-        if(boards==null ||boards.size()==0) throw new ResourceNotFoundException("Categorie", id);
-
         return  boards;
     }
 
