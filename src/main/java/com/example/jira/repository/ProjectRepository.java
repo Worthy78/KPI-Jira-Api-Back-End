@@ -15,9 +15,9 @@ import java.util.Set;
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long> {
 
-    List<Project> findByProjectCategoryId(Long id);
+    Page<Project> findByProjectCategoryId(Long id,Pageable pageable);
     //Page<Project> findByProjectCategoryId(Long id, Pageable pageable);
-    List<Project> findByProjectCategoryIdIsNull();
+    Page<Project> findByProjectCategoryIdIsNull(Pageable pageable);
     /*@Query("SELECT p FROM project p WHERE p.project_category_id = :idCat ")
     Project getProjectsCategory(
             @Param("idCat") Integer id);*/

@@ -7,6 +7,11 @@ import com.example.jira.repository.ProjectRepository;
 import com.example.jira.web.exceptions.ResourceNotFoundException;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -26,9 +31,8 @@ public class ProjectController {
     }
 
     @GetMapping(value = "/project/category/{id}")
-    public List<Project> getProjectsCategory(@PathVariable Long id) {
-        List<Project> projects = projectRepository.findByProjectCategoryId(id);
-        return projects;
+    public Page<Project> getProjectsCategory(@PathVariable Long id , @PageableDefault(page = 0, size = 5) Pageable pageable) {
+        return  projectRepository.findByProjectCategoryId(id,pageable);
     }
 /*
     @GetMapping(value = "/project/category/{id}/page/{pageNumber}")
@@ -39,8 +43,8 @@ public class ProjectController {
         return projects;
     }*/
     @GetMapping(value = "/project/category/autres")
-    public List<Project> getProjectsUnCategorized() {
-        return projectRepository.findByProjectCategoryIdIsNull();
+    public Page<Project> getProjectsUnCategorized( @PageableDefault(page = 0, size = 5) Pageable pageable) {
+        return projectRepository.findByProjectCategoryIdIsNull(pageable);
     }
 
 

@@ -22,6 +22,9 @@ spring:
 
   jackson :
       date-format : yyyy-MM-dd HH:mm:ss
+     # spring:
+      #  jackson:
+       #   time-zone=Europe/Zagreb:
 application:
   baseUrl: http://jira.tools.orange-sonatel.com
   token: Basic c3RnX2VwdF9kczplcHQyMDE5
