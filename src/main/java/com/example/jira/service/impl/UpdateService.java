@@ -24,8 +24,8 @@ public class UpdateService {
         this.sprintService = sprintService;
     }
 
-    public String updateDB() {
-        categoryService
+    public Mono<Boolean> updateDB() {
+        return categoryService
                 .getAllCategories()
                 .flatMap(categoryService::save)
                 .then(Mono.just("true"))
@@ -57,16 +57,6 @@ public class UpdateService {
                                     error.printStackTrace();
                                     log.info("PROJECTS ERROR "+error.getMessage());
                                 })
-                ).then(Mono.just(true))
-                .subscribe(
-                        success -> {
-                            log.info("GOT  CATEGORIES");
-                        },
-                        error -> {
-                            log.info("CATEGORY ERROR : "+error.getMessage());
-                        }
-                );
-
-        return "DATABASE UPDATED !";
+                ).then(Mono.just(true));
     }
 }
