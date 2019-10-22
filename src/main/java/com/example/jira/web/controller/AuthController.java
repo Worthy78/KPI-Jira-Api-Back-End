@@ -5,6 +5,7 @@ import com.example.jira.api.auth.Credential;
 import com.example.jira.service.AuthService;
 import com.example.jira.service.dto.UserDto;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +23,7 @@ public class AuthController {
     @Autowired
     AuthService authService;
 
+    @ApiOperation(value = "This generates the token and makes the authentication possible")
     @PostMapping(value = "/authenticate")
     public UserDto authentication(@RequestBody Credential credential) {
         // Encode using basic encoder

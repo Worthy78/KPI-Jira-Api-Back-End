@@ -1,65 +1,30 @@
-package com.example.jira;
+package com.example.jira.service.impl;
 
-import com.example.jira.api.report.Report;
-import com.example.jira.config.ApplicationProperties;
 import com.example.jira.domain.Sprint;
 import com.example.jira.service.BoardService;
 import com.example.jira.service.CategoryService;
 import com.example.jira.service.ProjectService;
 import com.example.jira.service.SprintService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-
-@SpringBootApplication
-@EnableSwagger2
-@EnableConfigurationProperties({ApplicationProperties.class})
-public class DemoApplication {
-
-    public static void main(String[] args) {
-        SpringApplication.run(DemoApplication.class, args);
-    }
-    @Bean
-    public WebMvcConfigurer corsConfigurer()
-    {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("http://localhost:3000");
-            }
-        };
-    }
-}
-
-
-/*
-@Component
+@Service
 @Slf4j
-class InitData implements CommandLineRunner {
-
+public class UpdateService {
     private final CategoryService categoryService;
     private final ProjectService projectsService;
     private final BoardService boardService;
     private final SprintService sprintService;
 
-    InitData(CategoryService categoryService, ProjectService projectsService, BoardService boardService, SprintService sprintService) {
+    UpdateService(CategoryService categoryService, ProjectService projectsService, BoardService boardService, SprintService sprintService) {
         this.categoryService = categoryService;
         this.projectsService = projectsService;
         this.boardService = boardService;
         this.sprintService = sprintService;
     }
 
-    public void updateDB() {
+    public String updateDB() {
         categoryService
                 .getAllCategories()
                 .flatMap(categoryService::save)
@@ -85,25 +50,23 @@ class InitData implements CommandLineRunner {
                         )
                         .then(Mono.just("true"))
                         .subscribe(
-                                success -> log.info("GOT  PROJECTS"),
+                                success -> {
+                                    log.info("GOT  PROJECTS");
+                                },
                                 error -> {
                                     error.printStackTrace();
                                     log.info("PROJECTS ERROR "+error.getMessage());
                                 })
                 ).then(Mono.just(true))
                 .subscribe(
-                        success -> log.info("GOT  CATEGORIES")
-                        ,
-                        error -> log.info("CATEGORY ERROR : "+error.getMessage())
+                        success -> {
+                            log.info("GOT  CATEGORIES");
+                        },
+                        error -> {
+                            log.info("CATEGORY ERROR : "+error.getMessage());
+                        }
                 );
-    }
 
-    @Override
-    public void run(String... args) {
-       // updateDB();
+        return "DATABASE UPDATED !";
     }
-
 }
-
-
- */
