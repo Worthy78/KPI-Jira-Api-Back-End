@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-// CustomUserDetailsService charge les données d’un utilisateur en fonction de son nom d’utilisateur (uernameOrEmail)
+// CustomUserDetailsService charge les données d’un utilisateur en fonction de son nom d’utilisateur (username)
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -20,12 +20,12 @@ public class CustomUserDetailsService implements UserDetailsService {
     // Méthode loadUserByUsername est utilisé par Spring Security
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String usernameOrEmail)
+    public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
-        // Let people login with either username or email
-        User user = userRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail)
+        // Let people login with either username
+        User user = userRepository.findByUsername(username)
                 .orElseThrow(() ->
-                        new UsernameNotFoundException("User not found with username or email : " + usernameOrEmail)
+                        new UsernameNotFoundException("User not found with username or email : " + username)
                 );
 
         return UserPrincipal.create(user);
