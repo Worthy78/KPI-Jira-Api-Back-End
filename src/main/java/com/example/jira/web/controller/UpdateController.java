@@ -7,13 +7,12 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Api( description="API pour la mise à jour de la base de données.")
 @RestController
 @Slf4j
-public class UpdateController {
+public class UpdateController implements CommandLineRunner {
 
     public final UpdateService updateService;
 
@@ -24,11 +23,11 @@ public class UpdateController {
     @ApiOperation(value = "This updates the database (this is automatically run in the start")
     @GetMapping(value = "/update")
     // Running the script
-    public String run() {
+    @Override
+    public void run(String... args) {
         updateService.updateDB().subscribe(
                 success -> log.info("GOT  CATEGORIES"),
                 error -> log.info("CATEGORY ERROR : "+error.getMessage())
         );
-        return "Updated";
     }
 }
