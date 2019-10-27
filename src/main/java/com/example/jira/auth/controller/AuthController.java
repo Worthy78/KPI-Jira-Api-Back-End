@@ -11,6 +11,8 @@ import com.example.jira.auth.payload.SignUpRequest;
 import com.example.jira.auth.repository.RoleRepository;
 import com.example.jira.auth.repository.UserRepository;
 import com.example.jira.auth.security.JwtTokenProvider;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +31,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.Collections;
 
+@Api( description="API pour la gestion des authentifications.")
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -48,6 +51,7 @@ public class AuthController {
     @Autowired
     JwtTokenProvider tokenProvider;
 
+    @ApiOperation(value = "Operation de connexion")
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -64,6 +68,7 @@ public class AuthController {
         return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
     }
 
+    @ApiOperation(value = "Operation d'inscription")
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
         if(userRepository.existsByUsername(signUpRequest.getUsername())) {

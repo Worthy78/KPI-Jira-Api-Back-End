@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api( description="API pour la mise à jour de la base de données.")
 @RestController
 @Slf4j
-public class UpdateController implements CommandLineRunner {
+public class UpdateController /*implements CommandLineRunner*/ {
 
     public final UpdateService updateService;
 
@@ -23,7 +23,7 @@ public class UpdateController implements CommandLineRunner {
     @ApiOperation(value = "This updates the database (this is automatically run in the start")
     @GetMapping(value = "/update")
     // Running the script
-    @Override
+   // @Override
     public void run(String... args) {
         updateService.updateDB().subscribe(
                 success -> log.info("GOT  CATEGORIES"),
