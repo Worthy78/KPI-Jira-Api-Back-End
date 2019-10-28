@@ -6,6 +6,7 @@ import com.example.jira.domain.Sprint;
 import com.example.jira.repository.ProjectRepository;
 import com.example.jira.web.exceptions.ResourceNotFoundException;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,19 +20,29 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-@Api(description = "API pour es opérations CRUD sur les Projets.")
+@Api(description = "API pour les opérations CRUD sur les Projets.")
 @RestController
 public class ProjectController {
     @Autowired
     private ProjectRepository projectRepository;
 
+    @ApiOperation(value = "This get all the projects in the databases")
     @GetMapping(value = "/project")
     public List<Project> getProjects() {
-        return projectRepository.findAll();
+        return projectRepository.findAllByOrderByIdAsc();
     }
 
+   @ApiOperation(value = "This get all the projects in the databases by name provided")
+    @GetMapping(value = "/project/search/{name}")
+    public List<Project> getProjectsByName(@PathVariable String name) {
+        return projectRepository.findByNameContainingIgnoreCase(name);
+    }
+
+    @ApiOperation(value = "This get all project of a specific category by project_id")
     @GetMapping(value = "/project/category/{id}")
-    public Page<Project> getProjectsCategory(@PathVariable Long id , @PageableDefault(page = 0, size = 5) Pageable pageable) {
+    public Page<Project> getProjectsCategory(@PathVariable Long id , @PageableDefault(page = 0, size = 5) @SortDefault.SortDefaults({
+            @SortDefault(sort = "id", direction = Sort.Direction.ASC),
+    })  Pageable pageable) {
         return  projectRepository.findByProjectCategoryId(id,pageable);
     }
 /*
@@ -42,8 +53,12 @@ public class ProjectController {
         //if (projects == null || !projects.hasContent()) throw new ResourceNotFoundException("Categorie", id);
         return projects;
     }*/
+
+    @ApiOperation(value = "This get the projects not categorized")
     @GetMapping(value = "/project/category/autres")
-    public Page<Project> getProjectsUnCategorized( @PageableDefault(page = 0, size = 5) Pageable pageable) {
+    public Page<Project> getProjectsUnCategorized( @PageableDefault(page = 0, size = 5)  @SortDefault.SortDefaults({
+            @SortDefault(sort = "id", direction = Sort.Direction.ASC),
+    }) Pageable pageable) {
         return projectRepository.findByProjectCategoryIdIsNull(pageable);
     }
 

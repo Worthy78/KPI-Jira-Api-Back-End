@@ -1,0 +1,34 @@
+package com.example.jira.web.controller;
+
+
+import com.example.jira.service.impl.UpdateService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@Api( description="API pour la mise à jour de la base de données.")
+@RestController
+@Slf4j
+public class UpdateController {
+
+    public final UpdateService updateService;
+
+    public UpdateController(UpdateService updateService) {
+        this.updateService = updateService;
+    }
+
+    @ApiOperation(value = "This updates the database (this is automatically run in the start")
+    @GetMapping(value = "/update")
+    // Running the script
+    public String run() {
+        updateService.updateDB().subscribe(
+                success -> log.info("GOT  CATEGORIES"),
+                error -> log.info("CATEGORY ERROR : "+error.getMessage())
+        );
+        return "Updated";
+    }
+}

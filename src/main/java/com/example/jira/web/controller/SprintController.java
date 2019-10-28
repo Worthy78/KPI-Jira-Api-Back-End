@@ -21,14 +21,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
-@Api(description = "API pour es opérations CRUD sur les Sprints.")
+@Api(description = "API pour les opérations CRUD sur les Sprints.")
 
 @RestController
 public class SprintController {
     @Autowired
     private SprintRepository sprintRepository;
 
-    @ApiOperation(value = "Récupère un sprint grâce à son ID à condition que celui-ci soit en présent!")
+    @ApiOperation(value = "This get a sprint by his id (if it exists)")
     @GetMapping(value = "/sprint/{id}")
 
     public Sprint getSprint(@PathVariable Integer id) {
@@ -47,6 +47,7 @@ public class SprintController {
         return theSprint;
     }
 
+    @ApiOperation(value = "This get all sprints of a specific board by board_id")
     @GetMapping(value = "/sprint/board/{boardId}")
     public Page<Sprint> getProjectBoardSprints(
             @PathVariable Integer boardId,

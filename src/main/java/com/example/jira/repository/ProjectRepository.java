@@ -15,6 +15,9 @@ import java.util.Set;
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Long> {
 
+    List<Project> findAllByOrderByIdAsc();
+
+    List<Project> findByNameContainingIgnoreCase(String name);
     Page<Project> findByProjectCategoryId(Long id,Pageable pageable);
     //Page<Project> findByProjectCategoryId(Long id, Pageable pageable);
     Page<Project> findByProjectCategoryIdIsNull(Pageable pageable);
