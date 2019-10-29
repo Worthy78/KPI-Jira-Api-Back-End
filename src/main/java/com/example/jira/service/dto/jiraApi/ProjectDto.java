@@ -1,4 +1,4 @@
-package com.example.jira.service.dto;
+package com.example.jira.service.dto.jiraApi;
 
 import com.example.jira.domain.Board;
 import com.example.jira.domain.Category;

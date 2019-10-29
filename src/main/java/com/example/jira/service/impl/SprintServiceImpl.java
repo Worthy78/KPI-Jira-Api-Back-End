@@ -5,7 +5,7 @@ import com.example.jira.config.ApplicationProperties;
 import com.example.jira.domain.Sprint;
 import com.example.jira.repository.SprintRepository;
 import com.example.jira.service.SprintService;
-import com.example.jira.service.dto.SprintDto;
+import com.example.jira.service.dto.jiraApi.SprintDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpHeaders;

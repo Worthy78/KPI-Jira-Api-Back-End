@@ -1,11 +1,10 @@
-package com.example.jira.service.dto;
+package com.example.jira.service.dto.jiraApi;
 
-import com.example.jira.domain.Board;
-import com.example.jira.domain.Sprint;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -18,8 +17,8 @@ public class SprintDto implements Serializable {
     private String self;
     private String state ;
     private String name ;
-    private Date startDate ;
-    private Date endDate ;
+    private LocalDate startDate ;
+    private LocalDate endDate ;
     private int originBoardId ;
     private String goal ;
 

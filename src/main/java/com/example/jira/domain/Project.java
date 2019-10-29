@@ -1,8 +1,6 @@
 package com.example.jira.domain;
 
-import com.example.jira.service.dto.BoardSerializer;
 import com.fasterxml.jackson.annotation.*;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 
 import javax.persistence.*;

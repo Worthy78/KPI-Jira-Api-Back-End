@@ -102,16 +102,7 @@ public class test {
         DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd-MM-yyy", Locale.ENGLISH);
         LocalDate date = LocalDate.parse("2019-05-21T09:36:00.000Z", inputFormatter);
         String formattedDate = outputFormatter.format(date);
-        System.out.println(formattedDate);
-
-
-
-
-
-int usRealise =15;
-int usEngage =18;
-        int result ;
-result =(int) Math.round((double)36/41*100 );
-        System.out.println(result);
+        System.out.println(LocalDate.now());
     }
+
 }

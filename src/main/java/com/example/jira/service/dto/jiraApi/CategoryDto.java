@@ -1,4 +1,4 @@
-package com.example.jira.service.dto;
+package com.example.jira.service.dto.jiraApi;
 
 import com.example.jira.domain.Project;
 import com.fasterxml.jackson.annotation.JsonManagedReference;

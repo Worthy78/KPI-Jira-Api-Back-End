@@ -7,6 +7,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -35,9 +36,11 @@ public class Sprint implements Serializable {
     private String name ;
 
     //@JsonFormat(shape= JsonFormat.Shape.STRING , pattern = "dd-MM-yy hh:mm:ss")
-    private Date startDate ;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    private LocalDate startDate ;
 
-    private Date endDate ;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    private LocalDate endDate ;
     private int originBoardId ;
     private String goal ;
 

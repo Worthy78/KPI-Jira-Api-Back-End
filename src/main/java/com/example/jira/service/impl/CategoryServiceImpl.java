@@ -4,7 +4,7 @@ import com.example.jira.config.ApplicationProperties;
 import com.example.jira.domain.Category;
 import com.example.jira.repository.CategoryRepository;
 import com.example.jira.service.CategoryService;
-import com.example.jira.service.dto.CategoryDto;
+import com.example.jira.service.dto.jiraApi.CategoryDto;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;

@@ -5,7 +5,7 @@ import com.example.jira.config.ApplicationProperties;
 import com.example.jira.domain.Project;
 import com.example.jira.repository.ProjectRepository;
 import com.example.jira.service.ProjectService;
-import com.example.jira.service.dto.ProjectDto;
+import com.example.jira.service.dto.jiraApi.ProjectDto;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -13,9 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
