@@ -13,6 +13,7 @@ import com.example.jira.auth.repository.UserRepository;
 import com.example.jira.auth.security.JwtTokenProvider;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +36,7 @@ import java.util.Collections;
 @Api( description="API pour la gestion des authentifications.")
 @RestController
 @RequestMapping("/api/auth")
+@Slf4j
 public class AuthController {
 
     @Autowired
@@ -88,7 +90,7 @@ public class AuthController {
         Role userRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
                 .orElseThrow(() -> new AppException("Admin Role not set."));
 
-        admin.setRoles(userRole);
+        admin.setRoles(Collections.singleton(userRole));
 
         User result = userRepository.save(admin);
 
@@ -100,9 +102,16 @@ public class AuthController {
     }
 
     @ApiOperation(value = "Operation de création de compte (inscription)")
-   // @PreAuthorize("hasRole('ROLE_ADMIN')") // Seul l'admin peut creer des comptes
+    @PreAuthorize("hasRole('ROLE_ADMIN')") // Seul l'admin peut creer des comptes
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest /*, Authentication authentication*/) {
+        /*
+        log.info("CURRENT USER {}", authentication.getName());
+        log.info("ROLES {}", authentication.getAuthorities());
+        log.info("USERS {}", authentication.getDetails());
+
+         */
+
         if(userRepository.existsByUsername(signUpRequest.getUsername())) {
             return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),
                     HttpStatus.BAD_REQUEST);
@@ -117,7 +126,7 @@ public class AuthController {
         Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
                 .orElseThrow(() -> new AppException("User Role not set."));
 
-        user.setRoles(userRole);
+        user.setRoles(Collections.singleton(userRole));
 
         User result = userRepository.save(user);
 

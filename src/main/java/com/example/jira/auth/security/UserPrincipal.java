@@ -1,6 +1,5 @@
 package com.example.jira.auth.security;
 
-import com.example.jira.auth.model.Role;
 import com.example.jira.auth.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,10 +16,9 @@ Nous définissons notre UserDetailsclasse personnalisée appelée UserPrincipal.
 C'est la classe dont les instances seront retournées à partir de notre coutume
 UserDetailsService. Spring Security utilisera les informations stockées dans
 l' UserPrincipalobjet pour effectuer l'authentification et l'autorisation.
-*/
+ */
 
 public class UserPrincipal implements UserDetails {
-    private final Role role;
     private Long id;
 
     private String name;
@@ -32,21 +30,25 @@ public class UserPrincipal implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserPrincipal(Long id, String name, String username, String password, Role role) {
+    public UserPrincipal(Long id, String name, String username, String password, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.name = name;
         this.username = username;
         this.password = password;
-        this.role = role;
+        this.authorities = authorities;
     }
 
     public static UserPrincipal create(User user) {
+        List<GrantedAuthority> authorities = user.getRoles().stream().map(role ->
+                new SimpleGrantedAuthority(role.getName().name())
+        ).collect(Collectors.toList());
+
         return new UserPrincipal(
                 user.getId(),
                 user.getName(),
                 user.getUsername(),
                 user.getPassword(),
-                user.getRoles()
+                authorities
         );
     }
 
