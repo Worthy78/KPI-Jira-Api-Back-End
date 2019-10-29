@@ -23,8 +23,8 @@ public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @ApiOperation(value = " Get the currently logged in user.")
-    @GetMapping("/user/me")
-    @PreAuthorize("hasRole('USER')")
+    @GetMapping("/user/current")
+    //@PreAuthorize("hasRole('USER')")
     public UserSummary getCurrentUser(@CurrentUser UserPrincipal currentUser) {
         UserSummary userSummary = new UserSummary(currentUser.getId(), currentUser.getUsername(), currentUser.getName());
         return userSummary;
