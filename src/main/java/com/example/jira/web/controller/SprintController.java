@@ -51,11 +51,11 @@ public class SprintController {
                     @SortDefault(sort = "startDate", direction = Sort.Direction.DESC),
                     // @SortDefault(sort = "id", direction = Sort.Direction.ASC)
             }) Pageable pageable,
-            @RequestParam(value = "state", defaultValue = "foo") final String state //for filtering purpose
+            @RequestParam(value = "state", required = false) final String state //for filtering purpose
     ) {
         System.out.println(pageable);
         //System.out.println(state);
-        if (state.equals("foo"))
+        if (state == null)
             return sprintRepository.findByBoardId(boardId, pageable);
         else
             return sprintRepository.findByBoardIdAndState(boardId, state, pageable);
@@ -73,16 +73,25 @@ public class SprintController {
                         });
     }
 
+
     @GetMapping(value = "/sprint/dashboard/")
     public Page<SprintDTO> getSprintsMonth(@PageableDefault(page = 0, size = 10)
-                                            // @SortDefault.SortDefaults({
-                                             //      @SortDefault(sort = "projectName", direction = Sort.Direction.ASC)})
-                                            Pageable pageable,
-                                           @RequestParam(value = "startPeriod", required = false)  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) final LocalDate startPeriod,
-                                           @RequestParam(value = "endPeriod",required = false)  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) final LocalDate endPeriod
+                                                   // @SortDefault.SortDefaults({
+                                                   //      @SortDefault(sort = "projectName", direction = Sort.Direction.ASC)})
+                                                   Pageable pageable,
+                                           @RequestParam(value = "startPeriod", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") final LocalDate startPeriod,
+                                           @RequestParam(value = "endPeriod", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") final LocalDate endPeriod,
+                                           @RequestParam(value = "state", required = false) final String state
     ) {
-        if (startPeriod==null && endPeriod==null)
-            return convertToSprintDTO(sprintRepository.findByStateEquals("active", pageable));
+        final LocalDate today = LocalDate.now();
+        if (startPeriod == null)
+            //return convertToSprintDTO(sprintRepository.findByStateEquals("active", pageable));
+            if (state == null)
+                return convertToSprintDTO(sprintRepository.findByEndDateGreaterThanEqualAndStartDateLessThanEqual(today, today, pageable));
+            else
+                return convertToSprintDTO(sprintRepository.findByEndDateGreaterThanEqualAndStartDateLessThanEqualAndState(today, today, state, pageable));
+        else if (state != null)
+            return convertToSprintDTO(sprintRepository.findByEndDateGreaterThanEqualAndStartDateLessThanEqualAndState(endPeriod, startPeriod, state, pageable));
         else
             return convertToSprintDTO(sprintRepository.findByEndDateGreaterThanEqualAndStartDateLessThanEqual(endPeriod, startPeriod, pageable));
     }

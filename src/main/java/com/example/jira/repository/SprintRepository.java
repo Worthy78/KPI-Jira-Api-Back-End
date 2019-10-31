@@ -17,6 +17,7 @@ public interface SprintRepository extends JpaRepository<Sprint, Integer> {
     Page<Sprint> findByBoardId(Integer boardId, Pageable pageable);
     Page<Sprint> findByBoardIdAndState(Integer boardId,String state,Pageable pageable);
     Page<Sprint> findByEndDateGreaterThanEqualAndStartDateLessThanEqual(LocalDate aLocalDate,LocalDate bLocalDate,Pageable pageable);
+    Page<Sprint> findByEndDateGreaterThanEqualAndStartDateLessThanEqualAndState(LocalDate aLocalDate,LocalDate bLocalDate,String state,Pageable pageable);
     Page<Sprint> findByStateEquals(String state,Pageable pageable);
    // Page<Sprint> findByStartDateGreaterThanEqual(LocalDate localDate,Pageable pageable);
 }
