@@ -8,9 +8,13 @@ spring:
       # Hibernate ddl auto (create, create-drop, validate, update)
       ddl-auto: update
   datasource:
-    url: jdbc:mysql://10.100.59.111:3306/jirakpi
-    username: jirakpi
-    password: o4sn2019
+    url: jdbc:mysql://localhost:3306/jiradb
+    username: jiraspring
+    password: password
+    #url: jdbc:mysql://10.100.59.111:3306/jirakpi
+    #username: jirakpi
+    #password: o4sn2019
+
     # Initialize the datasource with available DDL and DML scripts
     initialization-mode: always
   data :
