@@ -44,7 +44,7 @@ public class SprintController {
 
     @ApiOperation(value = "This get all sprints of a specific board by board_id")
     @GetMapping(value = "/sprint/board/{boardId}")
-    public Page<Sprint> getProjectBoardSprints(
+    public Page<SprintDTO> getProjectBoardSprints(
             @PathVariable Integer boardId,
             @PageableDefault(page = 0, size = 5)
             @SortDefault.SortDefaults({
@@ -56,9 +56,9 @@ public class SprintController {
         System.out.println(pageable);
         //System.out.println(state);
         if (state == null)
-            return sprintRepository.findByBoardId(boardId, pageable);
+            return convertToSprintDTO(sprintRepository.findByBoardId(boardId, pageable));
         else
-            return sprintRepository.findByBoardIdAndState(boardId, state, pageable);
+            return convertToSprintDTO(sprintRepository.findByBoardIdAndState(boardId, state, pageable));
 
     }
 
