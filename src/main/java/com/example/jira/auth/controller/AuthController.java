@@ -15,6 +15,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -37,7 +38,7 @@ import java.util.Collections;
 @RestController
 @RequestMapping("/api/auth")
 @Slf4j
-public class AuthController {
+public class AuthController implements CommandLineRunner {
 
     @Autowired
     AuthenticationManager authenticationManager;
@@ -69,36 +70,6 @@ public class AuthController {
 
         String jwt = tokenProvider.generateToken(authentication);
         return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
-    }
-
-    @ApiOperation(value = "Création Compte Admin")
-    @PostMapping("/admin")
-    public ResponseEntity<?> registerAdmin() {
-        // Creating admin's account
-        User admin = new User();
-        admin.setName("administrator");
-        admin.setUsername("admin");
-        admin.setPassword("admin");
-        // Verifying if the admin is already created
-        if(userRepository.existsByUsername(admin.getUsername())) {
-            return new ResponseEntity(new ApiResponse(false, "Admin account already existed!"),
-                    HttpStatus.BAD_REQUEST);
-        }
-
-        admin.setPassword(passwordEncoder.encode(admin.getPassword()));
-
-        Role userRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
-                .orElseThrow(() -> new AppException("Admin Role not set."));
-
-        admin.setRoles(Collections.singleton(userRole));
-
-        User result = userRepository.save(admin);
-
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentContextPath().path("/api/admin/{username}")
-                .buildAndExpand(result.getUsername()).toUri();
-
-        return ResponseEntity.created(location).body(new ApiResponse(true, "Admin registered successfully"));
     }
 
     @ApiOperation(value = "Operation de création de compte (inscription)")
@@ -136,4 +107,31 @@ public class AuthController {
 
         return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
     }
+
+    /*##############################################################################################*/
+    // Creation du compte de l'administrateur : automatiquement fait au démarrage de l'appli
+    public void registerAdmin() {
+        // Creating admin's account
+        User admin = new User();
+        admin.setName("administrator");
+        admin.setUsername("admin");
+        admin.setPassword("admin");
+        // Verifying if the admin is already created & Creating it
+        if(userRepository.existsByUsername(admin.getUsername())==false) {
+            admin.setPassword(passwordEncoder.encode(admin.getPassword()));
+
+            Role userRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
+                    .orElseThrow(() -> new AppException("Admin Role not set."));
+
+            admin.setRoles(Collections.singleton(userRole));
+
+            userRepository.save(admin);
+        }
+    }
+
+    // @Override
+    public void run(String... args) {
+       registerAdmin();
+    }
+
 }
