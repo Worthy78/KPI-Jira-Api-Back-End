@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api( description="API pour la mise à jour de la base de données.")
 @RestController
 @Slf4j
-public class UpdateController /*implements CommandLineRunner*/ {
+public class UpdateController implements CommandLineRunner {
 
     public final UpdateService updateService;
 

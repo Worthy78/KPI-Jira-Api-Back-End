@@ -14,7 +14,6 @@ spring:
     #url: jdbc:mysql://10.100.59.111:3306/jirakpi
     #username: jirakpi
     #password: o4sn2019
-
     # Initialize the datasource with available DDL and DML scripts
     initialization-mode: always
   data :
