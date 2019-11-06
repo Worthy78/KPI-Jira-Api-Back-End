@@ -6,6 +6,7 @@ import com.example.jira.service.CategoryService;
 import com.example.jira.service.ProjectService;
 import com.example.jira.service.SprintService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -24,7 +25,10 @@ public class UpdateService {
         this.sprintService = sprintService;
     }
 
+    // Updates every day at 8am
+    @Scheduled(cron="0 0 8 * * *")
     public Mono<Boolean> updateDB() {
+        System.out.println("ok");
         return categoryService
                 .getAllCategories()
                 .flatMap(categoryService::save)

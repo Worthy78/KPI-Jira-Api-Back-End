@@ -17,6 +17,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -31,6 +32,7 @@ import java.util.TimeZone;
 @SpringBootApplication
 @EnableSwagger2
 @EnableConfigurationProperties({ApplicationProperties.class})
+@EnableScheduling
 //Configuring Spring Boot to use Java 8 Date/Time converters and UTC Timezone
 @EntityScan(basePackageClasses = {
         DemoApplication.class,
@@ -54,7 +56,7 @@ public class DemoApplication  {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("http://localhost:3000");
+                registry.addMapping("/**").allowedOrigins("*");
             }
         };
     }
